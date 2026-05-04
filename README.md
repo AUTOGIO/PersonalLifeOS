@@ -4,6 +4,8 @@ Personal life and work operating system: a Django web app for planning, tracking
 
 **Repository layout:** the runnable application lives under [`lifeos/`](lifeos/).
 
+**GitHub:** [AUTOGIO/Life_OS](https://github.com/AUTOGIO/Life_OS) — clone with `git clone https://github.com/AUTOGIO/Life_OS.git`.
+
 ---
 
 ## Documentation

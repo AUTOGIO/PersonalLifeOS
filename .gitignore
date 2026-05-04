@@ -24,6 +24,7 @@ lifeos/staticfiles/
 # OS / editor
 .DS_Store
 Thumbs.db
+.cursor/
 
 # Testing / coverage
 .pytest_cache/

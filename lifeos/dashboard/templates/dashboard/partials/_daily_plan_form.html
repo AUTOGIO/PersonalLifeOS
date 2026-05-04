@@ -1,0 +1,45 @@
+{% load static %}
+<div id="plan-panel-content" style="padding:16px">
+<form hx-post="{% url 'htmx_save_daily_plan' %}"
+      hx-target="#plan-panel-content"
+      hx-swap="innerHTML"
+      id="dailyPlanForm">
+  {% csrf_token %}
+  <div class="plan-field">
+    <label class="plan-label"><i class="fa-solid fa-sun me-1 text-yellow"></i>Morning Intention</label>
+    <textarea name="morning_intention" class="lifeos-textarea"
+              placeholder="What do you intend to achieve today?"
+              rows="3">{{ daily_plan.morning_intention }}</textarea>
+  </div>
+  <div class="plan-field">
+    <label class="plan-label"><i class="fa-solid fa-moon me-1 text-purple"></i>Evening Review</label>
+    <textarea name="evening_review" class="lifeos-textarea"
+              placeholder="How did your day go?"
+              rows="3">{{ daily_plan.evening_review }}</textarea>
+  </div>
+  <div class="sliders-row">
+    <div class="slider-group">
+      <label class="plan-label">
+        <i class="fa-solid fa-face-smile me-1 text-yellow"></i>
+        Mood <span class="slider-val font-mono" id="moodVal">{{ daily_plan.mood_score|default:"5" }}</span>/10
+      </label>
+      <input type="range" name="mood_score" min="1" max="10"
+             value="{{ daily_plan.mood_score|default:'5' }}"
+             class="lifeos-range mood-range"
+             oninput="document.getElementById('moodVal').textContent=this.value" />
+    </div>
+    <div class="slider-group">
+      <label class="plan-label">
+        <i class="fa-solid fa-bolt me-1 text-green"></i>
+        Energy <span class="slider-val font-mono" id="energyVal">{{ daily_plan.energy_score|default:"5" }}</span>/10
+      </label>
+      <input type="range" name="energy_score" min="1" max="10"
+             value="{{ daily_plan.energy_score|default:'5' }}"
+             class="lifeos-range energy-range"
+             oninput="document.getElementById('energyVal').textContent=this.value" />
+    </div>
+  </div>
+  <button type="submit" class="btn btn-gradient w-100 mt-3">
+    <i class="fa-solid fa-floppy-disk me-2"></i>Save Plan
+  </button>
+</form>

@@ -1,0 +1,278 @@
+You are a senior Django developer. Build me a complete, fully functional personal life management dashboard called "LIFE OS" from scratch. This is a personal project for a retired professional in CABEDELO, PB, Brazil. Follow every instruction below precisely.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 PROJECT OBJECTIVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Build a powerful, visual, data-rich personal life management dashboard using Django. The goal is to manage daily life dynamically — adding, removing, and rescheduling activities interactively, while deeply integrating time-tracking for my AI development projects. The design must be similar to ‘HTOP’, ‘BTOP’, TERMINAL USER INTERFACE (TUI), COLORFUL, WITH CHARTS, TABLES.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛠️ TECH STACK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Django 4.2+ (backend + frontend via templates)
+- SQLite (default, no external DB needed)
+- Chart.js (for all charts and visualizations)
+- FullCalendar.js (for the interactive calendar)
+- Bootstrap 5 (base layout, heavily customized)
+- HTMX (for dynamic interactions without page reloads)
+- Django Channels or APScheduler (for scheduled Telegram reminders)
+- python-telegram-bot (for Telegram bot integration)
+- Celery + Redis (optional for async tasks / reminders)
+- Django REST Framework (for internal API endpoints used by Chart.js)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 PROJECT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+lifeos/
+├── manage.py
+├── requirements.txt
+├── .env.example
+├── lifeos/ (project settings)
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── dashboard/ (main app)
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── serializers.py
+│   ├── admin.py
+│   └── templates/dashboard/
+│       ├── base.html
+│       ├── home.html
+│       ├── planner.html
+│       ├── activities.html
+│       └── analytics.html
+├── reminders/ (Telegram bot app)
+│   ├── models.py
+│   ├── views.py
+│   ├── bot.py
+│   └── tasks.py
+└── static/
+    ├── css/custom.css
+    ├── js/charts.js
+    └── img/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🗂️ DJANGO MODELS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Create the following models in dashboard/models.py:
+
+1. Activity
+   - name: CharField
+   - category: CharField (choices: MUAY_THAI, GYM, DOG_TRAINING, KITESURFING, AI_DEV_CORE, AI_DEV_BUSINESS, AI_DEV_MACOS, AI_DEV_TOOLS, CUSTOM)
+   - scheduled_date: DateField
+   - start_time: TimeField (optional for flexible AI blocks)
+   - end_time: TimeField (optional for flexible AI blocks)
+   - duration_minutes: IntegerField (auto-calculated or manually logged)
+   - status: CharField (choices: PLANNED, IN_PROGRESS, DONE, SKIPPED, RESCHEDULED)
+   - notes: TextField (optional)
+   - created_at: DateTimeField(auto_now_add=True)
+
+2. AIProject
+   - name: CharField (e.g., PersonalLifeOS, fulofilo-analytics, CORTEX)
+   - category: CharField (choices: CORE_OS, BUSINESS_DATA, MACOS_NATIVE, TOOLS_SCRIPTS)
+   - priority: CharField (choices: HIGH, MEDIUM, LOW)
+   - status: CharField (choices: ACTIVE, PAUSED, COMPLETED)
+   - github_repo: URLField (optional)
+
+3. ProjectSession (For time tracking AI projects)
+   - project: ForeignKey(AIProject)
+   - activity: ForeignKey(Activity, null=True, blank=True)
+   - start_time: DateTimeField
+   - end_time: DateTimeField (null=True, blank=True)
+   - duration_minutes: IntegerField (auto-calculated on end)
+   - notes: TextField (optional)
+
+4. DailyPlan
+   - date: DateField (unique)
+   - morning_intention: TextField
+   - evening_review: TextField
+   - mood_score: IntegerField (1-10, optional)
+   - energy_score: IntegerField (1-10, optional)
+   - created_at: DateTimeField(auto_now_add=True)
+
+5. Habit
+   - name: CharField
+   - description: TextField (optional)
+   - frequency: CharField (choices: DAILY, WEEKLY, CUSTOM)
+   - target_days: JSONField (e.g. ["MON","WED"] for Muay Thai)
+   - streak_count: IntegerField (default=0)
+   - is_active: BooleanField (default=True)
+
+6. KiteSession
+   - date: DateField
+   - location: CharField
+   - wind_speed_knots: FloatField (optional)
+   - duration_minutes: IntegerField
+   - notes: TextField (optional)
+
+7. TelegramReminder
+   - activity: ForeignKey(Activity, null=True, blank=True)
+   - message: TextField
+   - remind_at: DateTimeField
+   - is_sent: BooleanField (default=False)
+   - chat_id: CharField
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📅 PRE-SEEDED FIXED SCHEDULE & AI BLOCKS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Create a management command `python manage.py seed_schedule` that auto-populates the next 30 days with:
+- Muay Thai: Every Monday and Wednesday, 16:00–18:00
+- Gym: Every day except Tuesday and Thursday (Mon/Wed/Fri/Sat/Sun), 08:15–09:30
+- Dog Training: Every day, 08:00–10:00 (never between 11:00–16:00)
+- AI Dev Morning Block (Flexible): Every weekday, 10:00–12:30 (Category: AI_DEV_CORE or AI_DEV_BUSINESS)
+- AI Dev Afternoon Block (Flexible): Every weekday, 14:00–16:00 (Category: AI_DEV_MACOS or AI_DEV_TOOLS)
+- Sleep Block (informational): 23:00–07:00 (next day)
+All activities should be created with status=PLANNED.
+
+Also seed the AIProject table with:
+- PersonalLifeOS (Core OS, High)
+- life-command-center (Core OS, High)
+- fulofilo-analytics (Business Data, High)
+- GMC (Business Data, Medium)
+- CORTEX (macOS Native, Medium)
+- SwiftOrganizerX (macOS Native, Medium)
+- claude-skills-os (Tools Scripts, Low)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🖥️ PAGES & VIEWS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+PAGE 1 — HOME DASHBOARD (/dashboard/)
+- Full-screen dark layout
+- Live clock (JavaScript, Fortaleza timezone BRT UTC-3)
+- Today's schedule: timeline view of all today's activities (like a vertical time ruler)
+- AI Project Session Tracker: A dedicated panel to select an AIProject and click "Start Session" / "Stop Session" (updates ProjectSession model via HTMX).
+- Quick Stats cards:
+  • Gym streak this week
+  • Muay Thai sessions this month
+  • AI Dev Hours today
+  • Kite sessions this month
+- Morning Intention input (inline HTMX form, no page reload)
+- Evening Review input (same)
+- Mood + Energy score sliders (1–10, saved via HTMX)
+- "Today's Weather" placeholder widget (Cabedelo, PB — hook up to Open-Meteo free API)
+- Motivational rock quote in footer (random from a hardcoded list of AC/DC / Iron Maiden / Ozzy lyrics-inspired phrases)
+
+PAGE 2 — PLANNER (/planner/)
+- Full FullCalendar.js integration (month + week + day views)
+- Activities rendered as color-coded events per category:
+  • Muay Thai: red/dark red
+  • Gym: orange
+  • Dog Training: green
+  • Kitesurfing: cyan/electric blue
+  • AI Dev Core: #7c3aed (deep purple)
+  • AI Dev Business: #f59e0b (amber)
+  • AI Dev macOS: #3b82f6 (electric blue)
+  • AI Dev Tools: #ec4899 (neon pink)
+  • Custom: purple
+- Click on any event: opens a modal to edit/reschedule/mark as done/skipped
+- "Add Activity" button: opens a form modal (HTMX) to create a new activity on any date/time
+- Drag-and-drop to reschedule (FullCalendar native)
+
+PAGE 3 — ANALYTICS (/analytics/)
+Use Chart.js for ALL charts:
+- Weekly Activity Heatmap (like GitHub contribution graph — 7 days x 24 hours grid)
+- Monthly Activity Bar Chart (grouped by category)
+- AI Dev Hours Donut Chart (time spent per AI category: Core, Business, macOS, Tools)
+- Weekly AI Hours Bar Chart (total dev time per day)
+- Habit Streak Line Chart (streak per habit over time)
+- Mood & Energy Score line chart (last 30 days)
+- Time distribution Donut Chart (% of waking hours spent on each activity category)
+- Kite Sessions scatter plot (date vs wind speed)
+
+PAGE 4 — ACTIVITIES & PROJECTS (/activities/)
+- Table view of all activities (filterable by date range, category, status)
+- Table view of all AI Projects and total hours logged per project
+- Inline status update (HTMX toggle: PLANNED → DONE / SKIPPED)
+- Bulk actions: mark multiple as done, delete, reschedule
+- Export to CSV button
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 DESIGN SYSTEM — ROCK + TROPICAL FUSION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Implement in static/css/custom.css:
+Color Palette:
+- Background: #0a0a0a (near-black)
+- Surface: #111827 (dark card)
+- Primary accent: #ff4500 (fire orange-red — rock energy)
+- Secondary accent: #00e5ff (electric cyan — tropical ocean)
+- Tertiary: #39ff14 (neon green — beach/surf)
+- Text primary: #f5f5f5
+- Text muted: #9ca3af
+Typography:
+- Headings: "Bebas Neue" (Google Fonts) — bold, rock poster feel
+- Body: "Inter" or "Rajdhani"
+- Monospace elements: "JetBrains Mono"
+UI Elements:
+- Cards with glowing neon border on hover (box-shadow with accent colors)
+- Gradient buttons: fire-orange to electric-cyan
+- Animated background: subtle wave or particle effect (use particles.js or CSS keyframes)
+- Scrollbar: custom thin dark scrollbar
+- Icons: use Heroicons or Font Awesome 6
+- Navigation: vertical sidebar (dark, collapsible on mobile) with icon + label
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🤖 TELEGRAM BOT INTEGRATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Create a reminders/ Django app with:
+1. A Telegram bot using python-telegram-bot library
+2. Bot commands:
+   - /today — sends today's full schedule
+   - /done [activity_name] — marks an activity as done
+   - /skip [activity_name] — marks as skipped
+   - /add [time] [activity] — adds a quick activity for today
+   - /start [project_name] — starts an AI Dev session timer
+   - /stop — stops the active AI Dev session timer and logs hours
+   - /mood [1-10] — logs mood score
+   - /kite — logs a new kite session (bot asks follow-up questions)
+3. Scheduled reminders (use APScheduler):
+   - 07:15 — Good morning message + today's schedule
+   - 30 min before each activity — "You have [Activity] in 30 minutes!"
+   - 22:30 — Evening review prompt: "Rate your day mood (1-10)"
+4. Configuration via .env:
+   TELEGRAM_BOT_TOKEN=your_token_here
+   TELEGRAM_CHAT_ID=your_chat_id_here
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌤️ WEATHER WIDGET (Free API)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Integrate Open-Meteo API (no API key required):
+- Endpoint: https://api.open-meteo.com/v1/forecast?latitude=-3.7172&longitude=-38.5433&current_weather=true&windspeed_unit=kn
+- Display: temperature, wind speed in knots, weather code icon
+- Show a "🪁 KITE ALERT" banner if wind speed > 15 knots
+- Refresh every 30 minutes via JavaScript fetch
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚙️ ADDITIONAL REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. Create requirements.txt with all dependencies pinned
+2. Create .env.example with all environment variables documented
+3. Create a README.md with:
+   - Setup instructions (virtualenv, migrate, seed, runserver)
+   - Telegram bot setup guide
+   - How to configure the Fortaleza timezone (USE_TZ=True, TIME_ZONE='America/Fortaleza')
+4. All Django settings must use environment variables via python-decouple
+5. Django Admin must have all models registered with list_display, list_filter, and search_fields configured
+6. Run `python manage.py collectstatic` compatible setup
+7. Include a Makefile with commands: make run, make migrate, make seed, make bot
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 DELIVERABLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Generate the complete file tree and all files. Start with:
+1. lifeos/settings.py (full config)
+2. All models.py files
+3. All views.py files
+4. All urls.py files
+5. base.html (full design system)
+6. home.html, planner.html, analytics.html, activities.html
+7. custom.css (full design)
+8. charts.js
+9. bot.py (Telegram bot)
+10. tasks.py (APScheduler reminders)
+11. management/commands/seed_schedule.py
+12. requirements.txt
+13. .env.example
+14. Makefile
+15. README.md
+Do NOT skip any file. Generate each one completely — no placeholders, no "# TODO", no truncation.

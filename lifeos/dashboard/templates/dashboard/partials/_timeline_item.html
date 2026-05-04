@@ -1,0 +1,45 @@
+<div class="timeline-item status-{{ activity.status|lower }}"
+     id="activity-row-{{ activity.pk }}"
+     style="--cat-color:{{ activity.get_category_color }}">
+  <div class="timeline-time font-mono">
+    {% if activity.start_time %}{{ activity.start_time|time:"H:i" }}{% else %}—{% endif %}
+  </div>
+  <div class="timeline-dot"></div>
+  <div class="timeline-card">
+    <div class="timeline-card-top">
+      <div class="timeline-name">{{ activity.name }}</div>
+      <div class="timeline-quick-actions">
+        <button class="timeline-quick-btn btn-done {% if activity.status == 'DONE' %}active-done{% endif %}"
+                hx-post="{% url 'htmx_toggle_status' activity.pk %}"
+                hx-target="#activity-row-{{ activity.pk }}"
+                hx-swap="outerHTML"
+                title="Mark Done">
+          <i class="fa-solid fa-check"></i>
+        </button>
+        <button class="timeline-quick-btn btn-skip {% if activity.status == 'SKIPPED' %}active-skip{% endif %}"
+                hx-post="{% url 'htmx_toggle_status' activity.pk %}"
+                hx-target="#activity-row-{{ activity.pk }}"
+                hx-swap="outerHTML"
+                title="Skip">
+          <i class="fa-solid fa-forward"></i>
+        </button>
+        <button class="timeline-quick-btn btn-edit"
+                hx-get="{% url 'htmx_activity_modal' activity.pk %}"
+                hx-target="#activityModalContent"
+                hx-swap="innerHTML"
+                title="Edit">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+      </div>
+    </div>
+    <div class="timeline-meta">
+      <span class="badge-cat" style="background:{{ activity.get_category_color }}22;color:{{ activity.get_category_color }};border:1px solid {{ activity.get_category_color }}44">
+        {{ activity.get_category_display }}
+      </span>
+      {% if activity.duration_minutes %}
+      <span class="text-muted font-mono" style="font-size:.75rem">{{ activity.duration_minutes }}min</span>
+      {% endif %}
+      <span class="status-badge status-{{ activity.status|lower }}">{{ activity.get_status_display }}</span>
+    </div>
+  </div>
+</div>

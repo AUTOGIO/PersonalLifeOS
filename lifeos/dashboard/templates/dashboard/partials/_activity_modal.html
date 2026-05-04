@@ -1,0 +1,74 @@
+{% load static %}
+<div class="modal-header lifeos-modal-header">
+  <h5 class="modal-title font-bebas text-accent">
+    {% if activity %}Edit Activity{% else %}Add Activity{% endif %}
+  </h5>
+  <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+</div>
+
+<form method="post"
+      action="{% if activity %}{% url 'htmx_activity_save_pk' activity.pk %}{% else %}{% url 'htmx_activity_save' %}{% endif %}"
+      class="modal-body p-4 activity-modal-form"
+      hx-get="{% url 'htmx_activity_conflicts' %}"
+      hx-trigger="change delay:450ms from:input[name='scheduled_date'], change delay:450ms from:input[name='start_time'], change delay:450ms from:input[name='end_time']"
+      hx-target="#activity-modal-conflicts"
+      hx-swap="innerHTML"
+      hx-include="this"
+      hx-params="scheduled_date,start_time,end_time,exclude_pk">
+  {% csrf_token %}
+  {% if activity %}
+  <input type="hidden" name="exclude_pk" value="{{ activity.pk }}" />
+  {% endif %}
+  <div id="activity-modal-conflicts">
+    {% include 'dashboard/partials/_activity_modal_conflicts.html' %}
+  </div>
+  <div class="row g-3">
+    <div class="col-12">
+      <label class="form-label text-muted">Activity Name</label>
+      <input type="text" name="name" class="lifeos-input w-100"
+             value="{% if activity %}{{ activity.name }}{% else %}{{ prefill.name|default:'' }}{% endif %}" required placeholder="e.g. Morning Gym Session" />
+    </div>
+    <div class="col-md-6">
+      <label class="form-label text-muted">Category</label>
+      <select name="category" class="lifeos-select w-100">
+        {% for val, label in category_choices %}
+        <option value="{{ val }}" {% if activity and activity.category == val %}selected{% elif not activity and prefill.category == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-6">
+      <label class="form-label text-muted">Status</label>
+      <select name="status" class="lifeos-select w-100">
+        {% for val, label in status_choices %}
+        <option value="{{ val }}" {% if activity and activity.status == val %}selected{% elif not activity and val == 'PLANNED' %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label class="form-label text-muted">Date</label>
+      <input type="date" name="scheduled_date" class="lifeos-input w-100"
+             value="{% if activity %}{{ activity.scheduled_date|date:'Y-m-d' }}{% else %}{{ prefill.scheduled_date|default:'' }}{% endif %}" required />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label text-muted">Start Time</label>
+      <input type="time" name="start_time" class="lifeos-input w-100"
+             value="{% if activity %}{{ activity.start_time|time:'H:i' }}{% else %}{{ prefill.start_time|default:'' }}{% endif %}" />
+    </div>
+    <div class="col-md-4">
+      <label class="form-label text-muted">End Time</label>
+      <input type="time" name="end_time" class="lifeos-input w-100"
+             value="{% if activity %}{{ activity.end_time|time:'H:i' }}{% else %}{{ prefill.end_time|default:'' }}{% endif %}" />
+    </div>
+    <div class="col-12">
+      <label class="form-label text-muted">Notes</label>
+      <textarea name="notes" class="lifeos-textarea w-100" rows="3"
+                placeholder="Optional notes…">{% if activity %}{{ activity.notes }}{% else %}{{ prefill.notes|default:'' }}{% endif %}</textarea>
+    </div>
+  </div>
+  <div class="d-flex gap-2 mt-4">
+    <button type="submit" class="btn btn-gradient flex-fill">
+      <i class="fa-solid fa-floppy-disk me-2"></i>Save
+    </button>
+    <button type="button" class="btn btn-outline-muted" data-bs-dismiss="modal">Cancel</button>
+  </div>
+</form>

@@ -1,0 +1,119 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Planner — LIFE OS{% endblock %}
+{% block page_title %}<i class="fa-solid fa-calendar-days me-2 text-cyan"></i>Planner{% endblock %}
+
+{% block extra_css %}
+<style>
+  .fc { font-family: 'Rajdhani', sans-serif; }
+  .fc-toolbar-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--text-primary); }
+  .fc-button-primary { background: var(--surface-2) !important; border-color: var(--border) !important; color: var(--text-primary) !important; font-family: 'Rajdhani', sans-serif; font-weight: 600; }
+  .fc-button-primary:hover { background: var(--accent) !important; border-color: var(--accent) !important; }
+  .fc-button-active { background: var(--accent) !important; border-color: var(--accent) !important; }
+  .fc-day-today { background: rgba(255,69,0,.06) !important; }
+  .fc-daygrid-event { border-radius: 4px; padding: 2px 4px; font-size: .78rem; font-weight: 600; }
+  .fc-timegrid-event { border-radius: 4px; }
+  .fc-col-header-cell { background: var(--surface-2); }
+  .fc-scrollgrid { border-color: var(--border) !important; }
+  .fc-scrollgrid td, .fc-scrollgrid th { border-color: var(--border) !important; }
+  .fc-daygrid-day-number, .fc-col-header-cell-cushion { color: var(--text-muted); text-decoration: none; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="planner-layout">
+
+  <!-- Toolbar -->
+  <div class="planner-toolbar">
+    <button class="btn btn-gradient"
+            hx-get="{% url 'htmx_activity_add' %}"
+            hx-target="#activityModalContent"
+            hx-swap="innerHTML">
+      <i class="fa-solid fa-plus me-2"></i>Add Activity
+    </button>
+    <div class="legend">
+      <span class="legend-item" style="--c:#dc2626">Muay Thai</span>
+      <span class="legend-item" style="--c:#f97316">Gym</span>
+      <span class="legend-item" style="--c:#22c55e">Dog Training</span>
+      <span class="legend-item" style="--c:#22c55e">Kitesurfing</span>
+      <span class="legend-item" style="--c:#2563eb">AI Core</span>
+      <span class="legend-item" style="--c:#eab308">AI Business</span>
+      <span class="legend-item" style="--c:#3b82f6">AI macOS</span>
+      <span class="legend-item" style="--c:#ec4899">AI Tools</span>
+    </div>
+  </div>
+
+  <!-- FullCalendar -->
+  <div class="panel calendar-panel">
+    <div id="calendar"></div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const calendarEl = document.getElementById('calendar');
+  const calendar = new FullCalendar.Calendar(calendarEl, {
+    initialView: 'timeGridWeek',
+    headerToolbar: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'dayGridMonth,timeGridWeek,timeGridDay'
+    },
+    height: 'auto',
+    nowIndicator: true,
+    editable: true,
+    selectable: true,
+    eventSources: [{
+      url: '/api/events/',
+      method: 'GET',
+      failure: () => alert('Error loading events')
+    }],
+
+    // ── Drag-and-drop update ─────────────────────────────────────────────
+    eventDrop: function(info) {
+      const ev = info.event;
+      const newDate = ev.startStr.split('T')[0];
+      const newStart = ev.startStr.includes('T') ? ev.startStr.split('T')[1].substring(0,5) : null;
+      const newEnd = ev.endStr && ev.endStr.includes('T') ? ev.endStr.split('T')[1].substring(0,5) : null;
+      fetch(`/api/events/${ev.id}/`, {
+        method: 'PATCH',
+        headers: {'Content-Type':'application/json','X-CSRFToken': getCookie('csrftoken')},
+        body: JSON.stringify({scheduled_date: newDate, start_time: newStart, end_time: newEnd})
+      }).catch(() => { info.revert(); alert('Failed to save'); });
+    },
+
+    // ── Click event to edit ──────────────────────────────────────────────
+    eventClick: function(info) {
+      const id = info.event.id;
+      htmx.ajax('GET', `/htmx/activity/${id}/modal/`, {target:'#activityModalContent', swap:'innerHTML'});
+    },
+
+    // ── Click empty slot to add ──────────────────────────────────────────
+    select: function(info) {
+      const dateStr = info.startStr.split('T')[0];
+      htmx.ajax('GET', `/htmx/activity/add/?date=${dateStr}`, {target:'#activityModalContent', swap:'innerHTML'});
+    },
+
+    // ── Style events by status ───────────────────────────────────────────
+    eventDidMount: function(info) {
+      const status = info.event.extendedProps.status;
+      if (status === 'DONE') {
+        info.el.style.opacity = '0.6';
+        info.el.style.textDecoration = 'line-through';
+      } else if (status === 'SKIPPED') {
+        info.el.style.opacity = '0.4';
+      }
+    }
+  });
+  calendar.render();
+});
+
+function getCookie(name) {
+  const val = `; ${document.cookie}`;
+  const parts = val.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(';').shift();
+}
+</script>
+{% endblock %}

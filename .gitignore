@@ -1,33 +1,7 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-.eggs/
-dist/
-build/
-
-# Virtual environments
-venv/
-.venv/
-env/
-
-# Django / Life OS local
-lifeos/.env
-lifeos/db.sqlite3
-lifeos/*.sqlite3-journal
-lifeos/media/
-lifeos/staticfiles/
-
-# OS / editor
 .DS_Store
-Thumbs.db
-.cursor/
-
-# Testing / coverage
-.pytest_cache/
-.coverage
-htmlcov/
-.mypy_cache/
+build/
+DerivedData/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+xcuserdata/

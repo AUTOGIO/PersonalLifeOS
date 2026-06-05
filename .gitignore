@@ -33,7 +33,9 @@ htmlcov/
 .mypy_cache/
 
 # Xcode / native build
+.build/
 .build_dd/
+build/
 .lifeos_backup_*/
 *.xcuserstate
 LifeOS.xcodeproj/xcuserdata/

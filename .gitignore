@@ -39,3 +39,5 @@ htmlcov/
 LifeOS.xcodeproj/xcuserdata/
 LifeOS.xcodeproj/project.xcworkspace/xcuserdata/
 DerivedData/
+
+# Xcode / native build

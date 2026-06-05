@@ -1,0 +1,303 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard — LIFE OS{% endblock %}
+{% block page_title %}<i class="fa-solid fa-gauge-high me-2 text-accent"></i>Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+
+  <!-- ── Daily Progress Bar ────────────────────────────────────────────── -->
+  {% with total=activities_today|length %}
+  {% if total > 0 %}
+  <div class="progress-banner" id="progressBanner">
+    <div class="progress-label">
+      <i class="fa-solid fa-rocket me-2 text-accent"></i>
+      <span>Today's Progress</span>
+      <span class="progress-fraction font-mono ms-2" id="progressText">… / {{ total }}</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-pct font-mono text-accent" id="progressPct">0%</div>
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  <!-- ── Row 1: Quick Stats ────────────────────────────────────────────── -->
+  <div class="stats-row">
+    <div class="stat-card" id="stat-gym">
+      <div class="stat-icon" style="color:#f97316"><i class="fa-solid fa-dumbbell"></i></div>
+      <div class="stat-body">
+        <div class="stat-value counter" data-target="{{ gym_this_week }}">0</div>
+        <div class="stat-label">Gym Sessions<br><small>this week</small></div>
+      </div>
+      <div class="stat-glow" style="--glow:#f97316"></div>
+    </div>
+    <div class="stat-card" id="stat-muay">
+      <div class="stat-icon" style="color:#dc2626"><i class="fa-solid fa-fist-raised"></i></div>
+      <div class="stat-body">
+        <div class="stat-value counter" data-target="{{ muay_thai_month }}">0</div>
+        <div class="stat-label">Muay Thai<br><small>this month</small></div>
+      </div>
+      <div class="stat-glow" style="--glow:#dc2626"></div>
+    </div>
+    <div class="stat-card" id="stat-ai">
+      <div class="stat-icon" style="color:#2563eb"><i class="fa-solid fa-microchip"></i></div>
+      <div class="stat-body">
+        <div class="stat-value counter" data-target="{{ ai_hours_today }}" data-suffix="h">0h</div>
+        <div class="stat-label">AI Dev<br><small>today</small></div>
+      </div>
+      <div class="stat-glow" style="--glow:#2563eb"></div>
+    </div>
+    <div class="stat-card" id="stat-kite">
+      <div class="stat-icon" style="color:#22c55e"><i class="fa-solid fa-wind"></i></div>
+      <div class="stat-body">
+        <div class="stat-value counter" data-target="{{ kite_month }}">0</div>
+        <div class="stat-label">Kite Sessions<br><small>this month</small></div>
+      </div>
+      <div class="stat-glow" style="--glow:#22c55e"></div>
+    </div>
+  </div>
+
+  <!-- ── Row 2: Timeline + Right Panel ─────────────────────────────────── -->
+  <div class="main-row">
+
+    <!-- Today's Timeline -->
+    <div class="panel timeline-panel">
+      <div class="panel-header">
+        <i class="fa-solid fa-timeline text-accent me-2"></i>
+        <span>TODAY'S SCHEDULE</span>
+        <span class="panel-date ms-auto text-muted font-mono">{{ today|date:"D, d M Y" }}</span>
+        <button class="btn-icon ms-2"
+                hx-get="{% url 'htmx_activity_add' %}"
+                hx-target="#activityModalContent"
+                hx-swap="innerHTML"
+                title="Add activity">
+          <i class="fa-solid fa-plus text-accent"></i>
+        </button>
+      </div>
+      <div class="timeline-container" id="timelineContainer">
+        {% if activities_today %}
+          {% for activity in activities_today %}
+          <div class="timeline-item status-{{ activity.status|lower }}"
+               id="activity-row-{{ activity.pk }}"
+               style="--cat-color:{{ activity.get_category_color }}">
+            <div class="timeline-time font-mono">
+              {% if activity.start_time %}{{ activity.start_time|time:"H:i" }}{% else %}—{% endif %}
+            </div>
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div class="timeline-card-top">
+                <div class="timeline-name">{{ activity.name }}</div>
+                <div class="timeline-quick-actions">
+                  <button class="timeline-quick-btn btn-done {% if activity.status == 'DONE' %}active-done{% endif %}"
+                          hx-post="{% url 'htmx_toggle_status' activity.pk %}"
+                          hx-target="#activity-row-{{ activity.pk }}"
+                          hx-swap="outerHTML"
+                          title="Mark Done">
+                    <i class="fa-solid fa-check"></i>
+                  </button>
+                  <button class="timeline-quick-btn btn-skip {% if activity.status == 'SKIPPED' %}active-skip{% endif %}"
+                          hx-post="{% url 'htmx_toggle_status' activity.pk %}"
+                          hx-target="#activity-row-{{ activity.pk }}"
+                          hx-swap="outerHTML"
+                          title="Skip">
+                    <i class="fa-solid fa-forward"></i>
+                  </button>
+                  <button class="timeline-quick-btn btn-edit"
+                          hx-get="{% url 'htmx_activity_modal' activity.pk %}"
+                          hx-target="#activityModalContent"
+                          hx-swap="innerHTML"
+                          title="Edit">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="timeline-meta">
+                <span class="badge-cat" style="background:{{ activity.get_category_color }}22;color:{{ activity.get_category_color }};border:1px solid {{ activity.get_category_color }}44">
+                  {{ activity.get_category_display }}
+                </span>
+                {% if activity.duration_minutes %}
+                <span class="text-muted font-mono" style="font-size:.75rem">{{ activity.duration_minutes }}min</span>
+                {% endif %}
+                <span class="status-badge status-{{ activity.status|lower }}">{{ activity.get_status_display }}</span>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            <i class="fa-solid fa-calendar-xmark fa-2x mb-2 text-muted"></i>
+            <p class="text-muted">No activities scheduled for today.</p>
+            <a href="{% url 'planner' %}" class="btn btn-sm btn-outline-accent">Open Planner</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="right-column">
+
+      <!-- AI Session Tracker -->
+      <div class="panel session-panel" id="session-panel-wrapper">
+        <div class="panel-header">
+          <i class="fa-solid fa-microchip text-purple me-2"></i>
+          <span>AI SESSION TRACKER</span>
+          {% if active_session %}
+          <span class="live-badge ms-auto"><span class="live-dot"></span>LIVE</span>
+          {% endif %}
+        </div>
+        {% include 'dashboard/partials/_session_panel.html' %}
+      </div>
+
+      <div class="environment-block">
+        <div class="env-section-title text-muted text-uppercase small px-1 mb-1">Environment</div>
+
+        <!-- Tide (HTMX-loaded; local 2026 table) -->
+        <div id="tide-card-mount" class="tide-htmx-mount"
+             data-tide-url="{% url 'htmx_tide_card' %}"
+             hx-get="{% url 'htmx_tide_card' %}?date={{ today|date:'Y-m-d' }}"
+             hx-trigger="load"
+             hx-swap="innerHTML">
+          <div class="panel tide-panel tide-placeholder text-center text-muted py-3 small">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            <span class="ms-2">Loading tide…</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daily Plan -->
+      <div class="panel plan-panel">
+        <div class="panel-header">
+          <i class="fa-solid fa-pen-to-square me-2" style="color:#22c55e"></i>
+          <span>DAILY PLAN</span>
+          <span class="ms-auto text-muted font-mono autosave-status" id="autosaveStatus" style="font-size:.7rem"></span>
+        </div>
+        <div id="plan-panel-content">
+          {% include 'dashboard/partials/_daily_plan_form.html' %}
+        </div>
+      </div>
+
+    </div><!-- /right-column -->
+  </div><!-- /main-row -->
+
+  <!-- ── Rock Quote Footer ─────────────────────────────────────────────── -->
+  <div class="quote-footer" id="quoteFooter" onclick="rotateQuote()" style="cursor:pointer" title="Click for a new quote">
+    <i class="fa-solid fa-guitar me-2 text-accent"></i>
+    <em class="font-mono" id="quoteText">{{ quote }}</em>
+    <span class="ms-auto text-muted font-mono" style="font-size:.7rem">click to change</span>
+  </div>
+
+</div><!-- /dashboard-grid -->
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const QUOTES = [
+  "Highway to Hell — on my way, crushing every goal! 🤘",
+  "Thunderstruck — that's how I feel after a morning workout! ⚡",
+  "Fear of the Dark? Not when you're coding past midnight! 🖥️",
+  "Iron Man doesn't skip gym day. Neither do I. 🏋️",
+  "Crazy Train — my schedule, fully optimized and on the rails! 🚂",
+  "We're not gonna take it — we're gonna BUILD it! 💪",
+  "Born to Run... to the kite beach! 🪁",
+  "Rock and Roll All Nite — then code all day! ⚡",
+  "Run to the Hills — or at least to the gym! 🏔️",
+  "Master of Puppets? Nah — Master of my Schedule! 🎸",
+  "Back in Black — back on track! 🖤",
+  "Black Dog energy — focused, powerful, unstoppable! 🐕‍🦺",
+  "War Pigs? Nope. War Plans. Executed daily. 📋",
+  "Paranoid? Only about missing my AI dev block! 💻",
+];
+function rotateQuote() {
+  const el = document.getElementById('quoteText');
+  el.style.opacity = '0';
+  setTimeout(() => {
+    el.textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+    el.style.opacity = '1';
+  }, 200);
+}
+
+// ── Animated stat counters ──────────────────────────────────────────────
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target) || 0;
+  const suffix = el.dataset.suffix || '';
+  const duration = 800;
+  const start = performance.now();
+  const isFloat = target % 1 !== 0;
+  function step(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = target * eased;
+    el.textContent = (isFloat ? current.toFixed(1) : Math.floor(current)) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = (isFloat ? target.toFixed(1) : target) + suffix;
+  }
+  requestAnimationFrame(step);
+}
+document.querySelectorAll('.counter').forEach(el => {
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) { animateCounter(el); obs.disconnect(); }
+  });
+  obs.observe(el);
+});
+
+// ── Daily progress bar ─────────────────────────────────────────────────
+function updateProgress() {
+  const items = document.querySelectorAll('.timeline-item');
+  const done = document.querySelectorAll('.timeline-item.status-done').length;
+  const total = items.length;
+  if (!total) return;
+  const pct = Math.round(done / total * 100);
+  const fill = document.getElementById('progressFill');
+  const pctEl = document.getElementById('progressPct');
+  const textEl = document.getElementById('progressText');
+  if (fill) { fill.style.width = pct + '%'; fill.style.background = pct === 100 ? 'var(--c-green)' : 'linear-gradient(90deg,var(--c-orange),var(--c-yellow),var(--c-blue))'; }
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (textEl) textEl.textContent = `${done} / ${total}`;
+  if (pct === 100) showToast('🎉 ALL DONE! You crushed today! 🤘', 'fire', 5000);
+}
+updateProgress();
+
+// Re-run progress after any HTMX swap on timeline items
+document.body.addEventListener('htmx:afterSwap', (e) => {
+  if (e.detail.target && e.detail.target.id && e.detail.target.id.startsWith('activity-row-')) {
+    setTimeout(updateProgress, 50);
+  }
+});
+
+// ── Auto-save Daily Plan ────────────────────────────────────────────────
+let autoSaveTimer = null;
+document.addEventListener('input', (e) => {
+  if (!e.target.closest('#plan-panel-content')) return;
+  const status = document.getElementById('autosaveStatus');
+  if (status) status.textContent = 'unsaved…';
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer = setTimeout(() => {
+    const form = document.querySelector('#plan-panel-content form');
+    if (form) {
+      htmx.trigger(form, 'submit');
+      if (status) { status.textContent = '✓ saved'; setTimeout(() => status.textContent = '', 2000); }
+    }
+  }, 1500);
+});
+
+// ── Session timer (initial) ─────────────────────────────────────────────
+(function() {
+  const startEl = document.getElementById('session-start-time');
+  if (!startEl) return;
+  const startDate = new Date(startEl.dataset.start);
+  const timerEl = document.getElementById('session-elapsed');
+  function tick() {
+    const diff = Math.floor((Date.now() - startDate) / 1000);
+    const hh = String(Math.floor(diff / 3600)).padStart(2,'0');
+    const mm = String(Math.floor((diff % 3600) / 60)).padStart(2,'0');
+    const ss = String(diff % 60).padStart(2,'0');
+    if (timerEl) timerEl.textContent = `${hh}:${mm}:${ss}`;
+  }
+  window._sessionTimerInterval = setInterval(tick, 1000);
+  tick();
+})();
+</script>
+{% endblock %}

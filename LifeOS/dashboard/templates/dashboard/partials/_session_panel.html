@@ -1,0 +1,35 @@
+{% if active_session %}
+<div class="session-active" id="session-active-block">
+  <div class="session-project-name">
+    <i class="fa-solid fa-circle-play text-green me-2"></i>
+    {{ active_session.project.name }}
+  </div>
+  <div class="session-timer font-mono" id="session-elapsed">00:00:00</div>
+  <span id="session-start-time" data-start="{{ active_session.start_time.isoformat }}"></span>
+  <button class="btn btn-sm btn-stop"
+          hx-post="{% url 'htmx_session_stop' %}"
+          hx-target="#session-panel-wrapper"
+          hx-swap="innerHTML">
+    <i class="fa-solid fa-stop me-1"></i>Stop Session
+  </button>
+  <div class="session-meta font-mono text-muted">
+    Started: {{ active_session.start_time|date:"H:i" }}
+  </div>
+</div>
+{% else %}
+<div class="session-idle" id="session-idle-block">
+  <select class="lifeos-select mb-3" id="projectSelect" name="project_id">
+    <option value="">— Select AI Project —</option>
+    {% for proj in ai_projects %}
+    <option value="{{ proj.pk }}">{{ proj.name }} ({{ proj.get_category_display }})</option>
+    {% endfor %}
+  </select>
+  <button class="btn btn-gradient w-100"
+          hx-post="{% url 'htmx_session_start' %}"
+          hx-target="#session-panel-wrapper"
+          hx-swap="innerHTML"
+          hx-include="#projectSelect">
+    <i class="fa-solid fa-play me-2"></i>Start Session
+  </button>
+</div>
+{% endif %}

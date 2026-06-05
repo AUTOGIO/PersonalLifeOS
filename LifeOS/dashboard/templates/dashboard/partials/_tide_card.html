@@ -1,0 +1,181 @@
+{% load static %}
+<div class="panel tide-panel tide-htmx-panel" x-data="{ expanded: false }">
+  <div class="panel-header flex-wrap gap-2">
+    <i class="fa-solid fa-water me-2" style="color:var(--cyan)"></i>
+    <span>TIDE — PORTO DE CABEDELO</span>
+    <span class="ms-auto text-muted font-mono small">{{ tide.port_name }}</span>
+    <button type="button" class="btn-icon tide-refresh-btn"
+            title="Refresh tide card"
+            hx-get="{% url 'htmx_tide_card' %}?date={{ tide.selected_date }}"
+            hx-target="#tide-card-mount"
+            hx-swap="innerHTML">
+      <i class="fa-solid fa-rotate-right text-muted"></i>
+    </button>
+  </div>
+
+  <div class="tide-body">
+    {% if not tide.tides %}
+    <div class="text-center text-muted py-4">
+      <i class="fa-solid fa-circle-exclamation mb-2"></i>
+      <p class="mb-1">No tide rows for this day.</p>
+      <p class="small mb-0">Run <code class="text-accent">python manage.py import_tides …</code> to load 2026 data.</p>
+    </div>
+    {% else %}
+
+    <div class="tide-controls d-flex flex-wrap align-items-center gap-2 mb-3">
+      <button type="button" class="btn btn-sm btn-outline-secondary"
+              hx-get="{% url 'htmx_tide_card' %}?date={{ tide.nav_prev }}"
+              hx-target="#tide-card-mount" hx-swap="innerHTML">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <input type="date" class="lifeos-input tide-date-input" name="date"
+             value="{{ tide.selected_date }}"
+             hx-get="{% url 'htmx_tide_card' %}"
+             hx-target="#tide-card-mount" hx-swap="innerHTML"
+             hx-trigger="change"
+             title="Select date" />
+      <button type="button" class="btn btn-sm btn-outline-secondary"
+              hx-get="{% url 'htmx_tide_card' %}?date={{ tide.nav_next }}"
+              hx-target="#tide-card-mount" hx-swap="innerHTML">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+      <span class="text-muted small ms-auto font-mono">{{ tide.selected_date }}</span>
+    </div>
+
+    <div class="tide-next-row mb-2">
+      {% if tide.next_tide %}
+      <div class="tide-next-main">
+        <span class="text-muted small text-uppercase">Next tide</span>
+        <div class="d-flex align-items-baseline flex-wrap gap-2">
+          <span class="tide-next-type badge tide-badge-{{ tide.next_tide.tide_type|lower }}">{{ tide.next_tide.tide_type }}</span>
+          <span class="font-mono text-accent fs-5">{{ tide.next_tide.time }}</span>
+          <span class="font-mono">{{ tide.next_tide.height_m }} m</span>
+        </div>
+      </div>
+      {% else %}
+      <p class="text-muted small mb-0">No further tide events in the table after now.</p>
+      {% endif %}
+    </div>
+
+    <div class="tide-kite-banners">
+      <div class="tide-msg tide-msg-{{ tide.kite_message.level }}">{{ tide.kite_message.text }}</div>
+      <div class="tide-msg tide-msg-tide small">
+        Tide score: <strong>{{ tide.tide_score.score }}/10</strong> — {{ tide.tide_score.label }}
+        {% if tide.tide_score.trend != 'UNKNOWN' %} · {{ tide.tide_score.trend }}{% endif %}
+        {% if tide.tide_score.height_now_m is not None %} · ~{{ tide.tide_score.height_now_m }} m now{% endif %}
+      </div>
+      {% if tide.tide_score.cautions %}
+      <div class="tide-msg tide-msg-warn small">
+        {% for c in tide.tide_score.cautions %}{{ c }}{% if not forloop.last %} · {% endif %}{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="tide-window small text-muted mb-2">
+      <strong class="text-primary">Best water window</strong> — {{ tide.tide_window.label }}
+    </div>
+
+    <div class="tide-chart-wrap mb-3">
+      <canvas id="tideChartCanvas" height="120"></canvas>
+    </div>
+    {{ tide.chart|json_script:"tide-chart-data" }}
+
+    <div class="d-flex flex-wrap gap-2 mb-2">
+      {% if tide.planner_open_url %}
+      <button type="button" class="btn btn-sm btn-gradient"
+              hx-get="{{ tide.planner_open_url }}"
+              hx-target="#activityModalContent"
+              hx-swap="innerHTML"
+              title="Opens activity form — save to confirm">
+        <i class="fa-solid fa-calendar-plus me-1"></i> Use in Planner
+      </button>
+      {% endif %}
+      <button type="button" class="btn btn-sm btn-outline-accent" @click="expanded = !expanded">
+        <span x-text="expanded ? 'Collapse table' : 'Full tide table'"></span>
+      </button>
+    </div>
+
+    <div class="tide-table-shell" :class="expanded ? 'is-expanded' : ''">
+      <table class="table table-sm table-dark tide-table mb-0">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Type</th>
+            <th class="text-end">m</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in tide.tides %}
+          <tr class="{% if tide.chart.highlight_id and row.id == tide.chart.highlight_id %}tide-row-next{% endif %}">
+            <td class="font-mono">{{ row.time }}</td>
+            <td><span class="badge tide-badge-{{ row.tide_type|lower }}">{{ row.tide_type }}</span></td>
+            <td class="text-end font-mono">{{ row.height_m }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+(function() {
+  if (typeof Chart === 'undefined') return;
+  const el = document.getElementById('tide-chart-data');
+  if (!el) return;
+  let data;
+  try { data = JSON.parse(el.textContent); } catch (e) { return; }
+  if (!data.labels || !data.labels.length) return;
+  const hi = data.highlight_index;
+  const ctx = document.getElementById('tideChartCanvas');
+  if (!ctx) return;
+  if (window._tideChartInstance) {
+    try { window._tideChartInstance.destroy(); } catch (e) {}
+    window._tideChartInstance = null;
+  }
+  const pointColors = data.labels.map((_, i) => (i === hi ? '#ef4444' : '#2563eb'));
+  const pointRadii = data.labels.map((_, i) => (i === hi ? 9 : 4));
+  window._tideChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.labels,
+      datasets: [{
+        label: 'Height (m)',
+        data: data.heights,
+        borderColor: '#2563eb',
+        backgroundColor: 'rgba(37,99,235,0.12)',
+        tension: 0.35,
+        fill: true,
+        pointBackgroundColor: pointColors,
+        pointBorderColor: pointColors,
+        pointRadius: pointRadii,
+        pointHoverRadius: 10,
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { intersect: false, mode: 'index' },
+      scales: {
+        x: {
+          ticks: { color: '#9ca3af', maxRotation: 0, font: { size: 10 } },
+          grid: { color: 'rgba(31,45,61,0.6)' }
+        },
+        y: {
+          ticks: { color: '#9ca3af' },
+          grid: { color: 'rgba(31,45,61,0.6)' },
+          title: { display: true, text: 'm', color: '#6b7280' }
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+})();
+(function alpineInit() {
+  const sc = document.currentScript;
+  const root = sc && sc.closest('.tide-panel');
+  if (window.Alpine && root) Alpine.initTree(root);
+})();
+</script>

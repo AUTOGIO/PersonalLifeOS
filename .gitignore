@@ -1,7 +1,41 @@
-.DS_Store
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
 build/
-DerivedData/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Django / Life OS local
+lifeos/.env
+lifeos/db.sqlite3
+lifeos/*.sqlite3-journal
+lifeos/media/
+lifeos/staticfiles/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.cursor/
+
+# Testing / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Xcode / native build
+.build_dd/
+.lifeos_backup_*/
 *.xcuserstate
-*.xccheckout
-*.xcscmblueprint
-xcuserdata/
+LifeOS.xcodeproj/xcuserdata/
+LifeOS.xcodeproj/project.xcworkspace/xcuserdata/
+DerivedData/

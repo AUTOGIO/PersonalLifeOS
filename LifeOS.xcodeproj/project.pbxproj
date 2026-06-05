@@ -7,22 +7,52 @@ objectVersion = 56;
 objects = {
 
 /* Begin PBXBuildFile section */
-A10000000000000000000001 /* LifeOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* LifeOSApp.swift */; };
-A10000000000000000000002 /* TerminalRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* TerminalRootView.swift */; };
-A10000000000000000000003 /* HeaderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000013 /* HeaderBarView.swift */; };
-A10000000000000000000004 /* TerminalPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000014 /* TerminalPanel.swift */; };
-A10000000000000000000005 /* TerminalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000015 /* TerminalTheme.swift */; };
-A10000000000000000000006 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000016 /* Assets.xcassets */; };
+DEAD0000000000000102 /* LifeOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000101 /* LifeOSApp.swift */; };
+DEAD0000000000000104 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000103 /* RootView.swift */; };
+DEAD0000000000000106 /* HeaderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000105 /* HeaderBarView.swift */; };
+DEAD0000000000000108 /* TerminalComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000107 /* TerminalComponents.swift */; };
+DEAD000000000000010A /* TerminalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000109 /* TerminalTheme.swift */; };
+DEAD000000000000010C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010B /* Models.swift */; };
+DEAD000000000000010E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010D /* Extensions.swift */; };
+DEAD0000000000000110 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010F /* AppData.swift */; };
+DEAD0000000000000112 /* SeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000111 /* SeedLoader.swift */; };
+DEAD0000000000000114 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000113 /* MainViewModel.swift */; };
+DEAD0000000000000116 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000115 /* DashboardView.swift */; };
+DEAD0000000000000118 /* ActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000117 /* ActivitiesView.swift */; };
+DEAD000000000000011A /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000119 /* ProjectsView.swift */; };
+DEAD000000000000011C /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011B /* HabitsView.swift */; };
+DEAD000000000000011E /* KiteSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011D /* KiteSessionsView.swift */; };
+DEAD0000000000000120 /* TidesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011F /* TidesView.swift */; };
+DEAD0000000000000122 /* WeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000121 /* WeeklyScheduleView.swift */; };
+DEAD0000000000000124 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000123 /* AnalyticsView.swift */; };
+DEAD0000000000000126 /* tides.json in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000125 /* tides.json */; };
+DEAD0000000000000128 /* daily_plans.json in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000127 /* daily_plans.json */; };
+DEAD000000000000012A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000129 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 A1000000000000000000000A /* LifeOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-A10000000000000000000011 /* LifeOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeOSApp.swift; sourceTree = "<group>"; };
-A10000000000000000000012 /* TerminalRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalRootView.swift; sourceTree = "<group>"; };
-A10000000000000000000013 /* HeaderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderBarView.swift; sourceTree = "<group>"; };
-A10000000000000000000014 /* TerminalPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPanel.swift; sourceTree = "<group>"; };
-A10000000000000000000015 /* TerminalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalTheme.swift; sourceTree = "<group>"; };
-A10000000000000000000016 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+DEAD0000000000000101 /* LifeOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeOSApp.swift; sourceTree = "<group>"; };
+DEAD0000000000000103 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+DEAD0000000000000105 /* HeaderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderBarView.swift; sourceTree = "<group>"; };
+DEAD0000000000000107 /* TerminalComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalComponents.swift; sourceTree = "<group>"; };
+DEAD0000000000000109 /* TerminalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalTheme.swift; sourceTree = "<group>"; };
+DEAD000000000000010B /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+DEAD000000000000010D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+DEAD000000000000010F /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+DEAD0000000000000111 /* SeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedLoader.swift; sourceTree = "<group>"; };
+DEAD0000000000000113 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+DEAD0000000000000115 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+DEAD0000000000000117 /* ActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesView.swift; sourceTree = "<group>"; };
+DEAD0000000000000119 /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
+DEAD000000000000011B /* HabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
+DEAD000000000000011D /* KiteSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiteSessionsView.swift; sourceTree = "<group>"; };
+DEAD000000000000011F /* TidesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidesView.swift; sourceTree = "<group>"; };
+DEAD0000000000000121 /* WeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleView.swift; sourceTree = "<group>"; };
+DEAD0000000000000123 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
+DEAD0000000000000125 /* tides.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tides.json; sourceTree = "<group>"; };
+DEAD0000000000000127 /* daily_plans.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_plans.json; sourceTree = "<group>"; };
+DEAD0000000000000129 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,9 +77,14 @@ sourceTree = "<group>";
 A10000000000000000000031 /* LifeOS */ = {
 isa = PBXGroup;
 children = (
-A10000000000000000000033 /* App */,
-A10000000000000000000034 /* UI */,
-A10000000000000000000016 /* Assets.xcassets */,
+DEAD000000000000012B /* App */,
+DEAD000000000000012C /* UI */,
+DEAD000000000000012D /* Models */,
+DEAD000000000000012E /* Persistence */,
+DEAD000000000000012F /* ViewModels */,
+DEAD0000000000000130 /* Views */,
+DEAD0000000000000131 /* Resources */,
+DEAD0000000000000129 /* Assets.xcassets */,
 );
 path = LifeOS;
 sourceTree = "<group>";
@@ -62,23 +97,73 @@ A1000000000000000000000A /* LifeOS.app */,
 name = Products;
 sourceTree = "<group>";
 };
-A10000000000000000000033 /* App */ = {
+DEAD000000000000012B /* App */ = {
 isa = PBXGroup;
 children = (
-A10000000000000000000011 /* LifeOSApp.swift */,
-A10000000000000000000012 /* TerminalRootView.swift */,
+DEAD0000000000000101 /* LifeOSApp.swift */,
+DEAD0000000000000103 /* RootView.swift */,
 );
 path = App;
 sourceTree = "<group>";
 };
-A10000000000000000000034 /* UI */ = {
+DEAD000000000000012C /* UI */ = {
 isa = PBXGroup;
 children = (
-A10000000000000000000013 /* HeaderBarView.swift */,
-A10000000000000000000014 /* TerminalPanel.swift */,
-A10000000000000000000015 /* TerminalTheme.swift */,
+DEAD0000000000000105 /* HeaderBarView.swift */,
+DEAD0000000000000107 /* TerminalComponents.swift */,
+DEAD0000000000000109 /* TerminalTheme.swift */,
 );
 path = UI;
+sourceTree = "<group>";
+};
+DEAD000000000000012D /* Models */ = {
+isa = PBXGroup;
+children = (
+DEAD000000000000010B /* Models.swift */,
+DEAD000000000000010D /* Extensions.swift */,
+DEAD000000000000010F /* AppData.swift */,
+);
+path = Models;
+sourceTree = "<group>";
+};
+DEAD000000000000012E /* Persistence */ = {
+isa = PBXGroup;
+children = (
+DEAD0000000000000111 /* SeedLoader.swift */,
+);
+path = Persistence;
+sourceTree = "<group>";
+};
+DEAD000000000000012F /* ViewModels */ = {
+isa = PBXGroup;
+children = (
+DEAD0000000000000113 /* MainViewModel.swift */,
+);
+path = ViewModels;
+sourceTree = "<group>";
+};
+DEAD0000000000000130 /* Views */ = {
+isa = PBXGroup;
+children = (
+DEAD0000000000000115 /* DashboardView.swift */,
+DEAD0000000000000117 /* ActivitiesView.swift */,
+DEAD0000000000000119 /* ProjectsView.swift */,
+DEAD000000000000011B /* HabitsView.swift */,
+DEAD000000000000011D /* KiteSessionsView.swift */,
+DEAD000000000000011F /* TidesView.swift */,
+DEAD0000000000000121 /* WeeklyScheduleView.swift */,
+DEAD0000000000000123 /* AnalyticsView.swift */,
+);
+path = Views;
+sourceTree = "<group>";
+};
+DEAD0000000000000131 /* Resources */ = {
+isa = PBXGroup;
+children = (
+DEAD0000000000000125 /* tides.json */,
+DEAD0000000000000127 /* daily_plans.json */,
+);
+path = Resources;
 sourceTree = "<group>";
 };
 /* End PBXGroup section */
@@ -139,7 +224,9 @@ A10000000000000000000061 /* Resources */ = {
 isa = PBXResourcesBuildPhase;
 buildActionMask = 2147483647;
 files = (
-A10000000000000000000006 /* Assets.xcassets in Resources */,
+DEAD0000000000000126 /* tides.json in Resources */,
+DEAD0000000000000128 /* daily_plans.json in Resources */,
+DEAD000000000000012A /* Assets.xcassets in Resources */,
 );
 runOnlyForDeploymentPostprocessing = 0;
 };
@@ -150,11 +237,24 @@ A10000000000000000000060 /* Sources */ = {
 isa = PBXSourcesBuildPhase;
 buildActionMask = 2147483647;
 files = (
-A10000000000000000000001 /* LifeOSApp.swift in Sources */,
-A10000000000000000000002 /* TerminalRootView.swift in Sources */,
-A10000000000000000000003 /* HeaderBarView.swift in Sources */,
-A10000000000000000000004 /* TerminalPanel.swift in Sources */,
-A10000000000000000000005 /* TerminalTheme.swift in Sources */,
+DEAD0000000000000102 /* LifeOSApp.swift in Sources */,
+DEAD0000000000000104 /* RootView.swift in Sources */,
+DEAD0000000000000106 /* HeaderBarView.swift in Sources */,
+DEAD0000000000000108 /* TerminalComponents.swift in Sources */,
+DEAD000000000000010A /* TerminalTheme.swift in Sources */,
+DEAD000000000000010C /* Models.swift in Sources */,
+DEAD000000000000010E /* Extensions.swift in Sources */,
+DEAD0000000000000110 /* AppData.swift in Sources */,
+DEAD0000000000000112 /* SeedLoader.swift in Sources */,
+DEAD0000000000000114 /* MainViewModel.swift in Sources */,
+DEAD0000000000000116 /* DashboardView.swift in Sources */,
+DEAD0000000000000118 /* ActivitiesView.swift in Sources */,
+DEAD000000000000011A /* ProjectsView.swift in Sources */,
+DEAD000000000000011C /* HabitsView.swift in Sources */,
+DEAD000000000000011E /* KiteSessionsView.swift in Sources */,
+DEAD0000000000000120 /* TidesView.swift in Sources */,
+DEAD0000000000000122 /* WeeklyScheduleView.swift in Sources */,
+DEAD0000000000000124 /* AnalyticsView.swift in Sources */,
 );
 runOnlyForDeploymentPostprocessing = 0;
 };
@@ -167,24 +267,22 @@ buildSettings = {
 ALWAYS_SEARCH_USER_PATHS = NO;
 CLANG_ENABLE_MODULES = YES;
 CLANG_ENABLE_OBJC_ARC = YES;
-CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 COPY_PHASE_STRIP = NO;
 DEBUG_INFORMATION_FORMAT = dwarf;
-ENABLE_STRICT_OBJC_MSGSEND = YES;
-GCC_C_LANGUAGE_STANDARD = gnu17;
-GCC_NO_COMMON_BLOCKS = YES;
 GCC_OPTIMIZATION_LEVEL = 0;
 GCC_PREPROCESSOR_DEFINITIONS = (
 "DEBUG=1",
 "$(inherited)",
 );
-MACOSX_DEPLOYMENT_TARGET = 14.0;
 MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 ONLY_ACTIVE_ARCH = YES;
-SDKROOT = macosx;
 SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+ENABLE_STRICT_OBJC_MSGSEND = YES;
+GCC_C_LANGUAGE_STANDARD = gnu17;
+GCC_NO_COMMON_BLOCKS = YES;
+MACOSX_DEPLOYMENT_TARGET = 14.0;
+SDKROOT = macosx;
 };
 name = Debug;
 };
@@ -197,13 +295,13 @@ CLANG_ENABLE_OBJC_ARC = YES;
 COPY_PHASE_STRIP = NO;
 DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 ENABLE_NS_ASSERTIONS = NO;
+MTL_ENABLE_DEBUG_INFO = NO;
+SWIFT_OPTIMIZATION_LEVEL = "-O";
 ENABLE_STRICT_OBJC_MSGSEND = YES;
 GCC_C_LANGUAGE_STANDARD = gnu17;
 GCC_NO_COMMON_BLOCKS = YES;
 MACOSX_DEPLOYMENT_TARGET = 14.0;
-MTL_ENABLE_DEBUG_INFO = NO;
 SDKROOT = macosx;
-SWIFT_OPTIMIZATION_LEVEL = "-O";
 };
 name = Release;
 };
@@ -213,6 +311,7 @@ buildSettings = {
 ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 CODE_SIGN_STYLE = Automatic;
 CURRENT_PROJECT_VERSION = 1;
+ENABLE_HARDENED_RUNTIME = YES;
 GENERATE_INFOPLIST_FILE = YES;
 INFOPLIST_KEY_CFBundleDisplayName = LifeOS;
 INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -238,6 +337,7 @@ buildSettings = {
 ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 CODE_SIGN_STYLE = Automatic;
 CURRENT_PROJECT_VERSION = 1;
+ENABLE_HARDENED_RUNTIME = YES;
 GENERATE_INFOPLIST_FILE = YES;
 INFOPLIST_KEY_CFBundleDisplayName = LifeOS;
 INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";

@@ -1,6 +1,14 @@
 import SwiftUI
 
 struct HeaderBarView: View {
+    @EnvironmentObject private var vm: MainViewModel
+
+    private var dateString: String {
+        let f = DateFormatter()
+        f.dateFormat = "EEEE, dd MMM yyyy"
+        return f.string(from: Date())
+    }
+
     var body: some View {
         HStack(spacing: 12) {
             Text("LIFE_OS")
@@ -11,23 +19,28 @@ struct HeaderBarView: View {
                 .font(TerminalTheme.mono(size: 13, weight: .semibold))
                 .foregroundStyle(TerminalTheme.cyan)
 
-            Spacer()
-
-            Text("MACOS 26.6")
-                .font(TerminalTheme.mono(size: 12, weight: .medium))
+            Text(dateString.uppercased())
+                .font(TerminalTheme.mono(size: 11, weight: .medium))
                 .foregroundStyle(TerminalTheme.textSecondary)
 
+            Spacer()
+
+            Text(vm.quote)
+                .font(TerminalTheme.mono(size: 11, weight: .regular))
+                .foregroundStyle(TerminalTheme.textSecondary)
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .frame(maxWidth: 360, alignment: .trailing)
+
             Text("STATUS: LIVE")
-                .font(TerminalTheme.mono(size: 12, weight: .semibold))
-                .foregroundStyle(.green)
+                .font(TerminalTheme.mono(size: 11, weight: .semibold))
+                .foregroundStyle(TerminalTheme.green)
         }
-        .padding(.horizontal, 12)
+        .padding(.horizontal, 14)
         .padding(.vertical, 10)
         .background(TerminalTheme.panel)
         .overlay(
-            Rectangle()
-                .frame(height: 1)
-                .foregroundStyle(TerminalTheme.border),
+            Rectangle().frame(height: 1).foregroundStyle(TerminalTheme.border),
             alignment: .bottom
         )
     }

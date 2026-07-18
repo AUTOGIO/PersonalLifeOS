@@ -1,45 +1,50 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-*.egg-info/
-.eggs/
-dist/
+# macOS / Xcode
+.build/
+.build_dd/
 build/
-
-# Virtual environments
-venv/
-.venv/
-env/
-
-# Django / Life OS local
-lifeos/.env
-lifeos/db.sqlite3
-lifeos/*.sqlite3-journal
-lifeos/media/
-lifeos/staticfiles/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+LifeOS.xcodeproj/xcuserdata/
+LifeOS.xcodeproj/project.xcworkspace/xcuserdata/
+.lifeos_backup_*/
 
 # OS / editor
 .DS_Store
 Thumbs.db
 .cursor/
+*.swp
+*~
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# Python (legacy / occasional scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.egg-info/
+.eggs/
+dist/
+venv/
+.venv/
+env/
+
+# Node (if added later)
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Logs / temp
+logs/
+tmp/
+*.log
 
 # Testing / coverage
 .pytest_cache/
 .coverage
 htmlcov/
 .mypy_cache/
-
-# Xcode / native build
-.build/
-.build_dd/
-build/
-.lifeos_backup_*/
-*.xcuserstate
-LifeOS.xcodeproj/xcuserdata/
-LifeOS.xcodeproj/project.xcworkspace/xcuserdata/
-DerivedData/
-
-# Xcode / native build

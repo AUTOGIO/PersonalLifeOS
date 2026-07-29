@@ -3,8 +3,10 @@ import SwiftData
 
 struct WeeklyScheduleView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @Query(sort: [SortDescriptor(\ScheduleBlock.displayOrder)]) private var blocks: [ScheduleBlock]
     @State private var showingAdd = false
+    @State private var pendingDelete: ScheduleBlock? = nil
 
     private func blocks(for day: Weekday) -> [ScheduleBlock] {
         blocks.filter { $0.dayOfWeek == day && $0.isActive }
@@ -57,7 +59,7 @@ struct WeeklyScheduleView: View {
                                 .overlay(RoundedRectangle(cornerRadius: 4).stroke(b.category.color.opacity(0.4), lineWidth: 1))
                                 .clipShape(RoundedRectangle(cornerRadius: 4))
                                 .contextMenu {
-                                    Button("Delete", role: .destructive) { context.delete(b); try? context.save() }
+                                    Button("Delete", role: .destructive) { pendingDelete = b }
                                 }
                             }
                         }
@@ -65,7 +67,6 @@ struct WeeklyScheduleView: View {
                 }
                 .padding(.horizontal, 16).padding(.bottom, 8)
 
-                // Legend
                 SectionPanel(title: "Legend", accent: TerminalTheme.textSecondary) {
                     let cats = ScheduleCategory.allCases
                     let legendCols = Array(repeating: GridItem(.flexible(), alignment: .leading), count: 4)
@@ -88,12 +89,32 @@ struct WeeklyScheduleView: View {
             }
         }
         .sheet(isPresented: $showingAdd) { ScheduleBlockEditor() }
+        .confirmationDialog(
+            "Delete schedule block?",
+            isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if let b = pendingDelete {
+                    context.delete(b)
+                    persistence.save(context)
+                }
+                pendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) { pendingDelete = nil }
+        } message: {
+            Text(pendingDelete.map { "Remove \($0.activity)." } ?? "")
+        }
     }
 }
 
 struct ScheduleBlockEditor: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @State private var day: Weekday = .mon
     @State private var activity = ""
     @State private var start = timeOfDay("09:00")
@@ -119,7 +140,8 @@ struct ScheduleBlockEditor: View {
                 Button("Save") {
                     context.insert(ScheduleBlock(dayOfWeek: day, activity: activity, startTime: start,
                                                  endTime: end, category: category, isAnchor: isAnchor))
-                    try? context.save(); dismiss()
+                    persistence.save(context)
+                    if persistence.errorMessage == nil { dismiss() }
                 }.buttonStyle(.borderedProminent).disabled(activity.isEmpty)
             }
         }

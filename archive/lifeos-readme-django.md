@@ -1,14 +1,9 @@
-# Life OS — application package
+# Life OS — application package (HISTORICAL)
 
-This directory contains the Django project (`manage.py`, `lifeos/` settings package, `dashboard/`, `reminders/`).
+> **Historical only — Django / Telegram stack is retired.**  
+> The live product is the native macOS app in `LifeOS/`. See the root [README.md](../README.md) to run the app. Do not follow the `venv` / `make` / bot instructions below as current procedure.
 
-**Canonical documentation** (architecture, runbook, API and model reference) lives in the repository root:
-
-- [../README.md](../README.md) — overview and documentation index  
-- [../docs/README.md](../docs/README.md) — how documentation is organized  
-- [../docs/runbook.md](../docs/runbook.md) — install, Telegram, operations  
-- [../docs/architecture.md](../docs/architecture.md) — system design  
-- [../docs/reference.md](../docs/reference.md) — URLs, env vars, models  
+This archive note describes the former Django project (`manage.py`, `lifeos/` settings package, `dashboard/`, `reminders/`). Linked `docs/*` paths below no longer exist on `main`.
 
 ---
 

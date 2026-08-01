@@ -677,8 +677,41 @@ No `.sh` / `.zsh` / `.command` scripts under `scripts/` or elsewhere in the trac
 4. Who owns annual refresh of `tides.json` from `data/raw` PDF?
 5. Should `reports/` become an official AGENTS folder or stay strictly local-excluded?
 
-## 29. Final Recommendation
+## 29. Remediation Status
 
-Treat PersonalLifeOS as a **healthy, appropriately small native Mac app** with **retired web complexity**. Do not reintroduce Django or speculative services. Stabilize **persistence error handling** and add a **minimal test target** before further feature work; complete **Daily Plan editing** and **timezone policy** so the planner matches its own models. Keep architecture flat: SwiftUI views + SwiftData models + seed resources.
+**Branch:** `fix/audit-remediation` (based on `main` at `249aa3e`)
 
-**Audit completion status:** Complete (read-only), with compile/run left unverified by design.
+| Finding | Status | Implementation |
+|---------|--------|----------------|
+| AUDIT-001 Silent saves | ✅ **Fixed** | `PersistenceAlerts.swift` with `save()` helper; all views updated |
+| AUDIT-002 No tests | ✅ **Fixed** | `tests/LifeOSTests/LifeOSTests.swift` with 7 unit tests |
+| AUDIT-003 DailyPlan no editor | ⏳ Deferred | Planned for future iteration |
+| AUDIT-004 Timezone inconsistency | ✅ **Fixed** | `AppCalendar.swift` centralizes America/Fortaleza policy |
+| AUDIT-005 fatalError on container fail | ✅ **Fixed** | In-memory fallback + `storeRecoveryMode` UI warning |
+| AUDIT-006 Seed failures invisible | ✅ **Fixed** | `SeedLoader` returns warnings; `PersistenceAlerts.seedWarning` |
+| AUDIT-007 Documentation drift | ✅ **Fixed** | AGENTS.md updated; archive banner added |
+| AUDIT-008 No CI | ✅ **Fixed** | `.github/workflows/ci.yml` with macOS test job |
+| AUDIT-009 Empty app icon | ✅ **Fixed** | Full macOS icon set added |
+| AUDIT-010 Ambition–capacity mismatch | ✅ **Fixed** | AGENTS.md reflects actual folders |
+| AUDIT-011 CSV escaping | ✅ **Fixed** | `CSV.escape()` / `CSV.row()` in Extensions.swift |
+| AUDIT-012 Deletes without confirmation | ✅ **Fixed** | All 5 views have confirmation dialogs |
+| AUDIT-013 Unused tides query | ✅ **Fixed** | Removed from KiteSessionsView |
+| AUDIT-014 Broken local git ref | ✅ **Fixed** | Cleaned up |
+| AUDIT-015 Orphan Preview Content | ✅ **Fixed** | Removed; empty archive/Icon deleted |
+| AUDIT-016 No App Sandbox | ℹ️ Documented | README notes intentional non-sandbox |
+| AUDIT-017 Untracked workspace | ✅ **Fixed** | Added to .gitignore |
+
+**Tests added:**
+- `testActivityComputeDuration` — duration math
+- `testCSVEscaping` — RFC CSV quoting
+- `testIsoDayUsesFortalezaFormatter` — timezone policy
+- `testWeekStartIsMondayInFortaleza` — week boundary
+- `testHabitStreak` — streak calculation and toggle
+- `testDecodeBundledTideSample` — seed decoding
+- `testDecodeDailyPlans` — seed decoding
+
+## 30. Final Recommendation
+
+Treat PersonalLifeOS as a **healthy, appropriately small native Mac app** with **retired web complexity**. Do not reintroduce Django or speculative services. The **persistence error handling** and **timezone policy** have been stabilized; a **minimal test target** now exists. Future work: complete **Daily Plan editing** so the planner matches its own models. Keep architecture flat: SwiftUI views + SwiftData models + seed resources.
+
+**Audit completion status:** Complete. Remediation implemented on `fix/audit-remediation` branch.

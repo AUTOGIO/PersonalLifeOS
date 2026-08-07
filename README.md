@@ -41,4 +41,9 @@ Day boundaries (habits, tides, “today”) use **America/Fortaleza** consistent
 | `tests/` | Unit tests (`LifeOSTests`) |
 | `data/` | Raw inputs and reference files (e.g. PDFs) |
 | `archive/` | Historical docs kept for reference (Django stack retired) |
+| `docs/` | NotebookLM wiring, standing prompts, architecture brief |
 | `AGENTS.md` | Folder layout rules for this repo |
+
+## NotebookLM
+
+Optional synthesizer for multi-doc questions about this repo. Dedicated notebook, sync table, and brief refresh habit: [`docs/notebooklm.md`](docs/notebooklm.md). Canonical layout rules remain in `AGENTS.md`.

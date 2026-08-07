@@ -12,8 +12,9 @@ Personal macOS app (SwiftUI / SwiftData). Keep the repo simple and predictable.
 | `data/` | CSV, Excel, exports, PDFs, raw inputs (`data/raw`, `data/processed` if helpful) |
 | `archive/` | Obsolete files kept for reference (do not delete casually) |
 | `.github/` | CI workflows |
+| `docs/` | NotebookLM wiring, standing prompts, architecture brief |
 
-Create `scripts/`, `config/`, `docs/`, or `assets/` only when there is real content for them — do not add empty placeholder folders.
+Create `scripts/`, `config/`, or `assets/` only when there is real content for them — do not add empty placeholder folders.
 
 ## Root may contain only
 

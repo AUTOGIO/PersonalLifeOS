@@ -39,10 +39,10 @@ struct WeeklyScheduleView: View {
                             ForEach(blocks(for: day)) { b in
                                 VStack(alignment: .leading, spacing: 2) {
                                     HStack(spacing: 4) {
-                                        Image(systemName: b.category.sfSymbol).font(.system(size: 8))
+                                        Image(systemName: b.category.sfSymbol).font(TerminalTheme.icon(size: 8))
                                             .foregroundStyle(b.category.color)
                                         if b.isAnchor {
-                                            Image(systemName: "pin.fill").font(.system(size: 7))
+                                            Image(systemName: "pin.fill").font(TerminalTheme.icon(size: 7))
                                                 .foregroundStyle(TerminalTheme.amber)
                                         }
                                     }
@@ -73,13 +73,13 @@ struct WeeklyScheduleView: View {
                     LazyVGrid(columns: legendCols, alignment: .leading, spacing: 6) {
                         ForEach(cats) { c in
                             HStack(spacing: 6) {
-                                Image(systemName: c.sfSymbol).font(.system(size: 10)).foregroundStyle(c.color).frame(width: 16)
+                                Image(systemName: c.sfSymbol).font(TerminalTheme.icon(size: 10)).foregroundStyle(c.color).frame(width: 16)
                                 Text(c.label).font(TerminalTheme.mono(size: 10, weight: .regular))
                                     .foregroundStyle(TerminalTheme.textPrimary).lineLimit(1)
                             }
                         }
                         HStack(spacing: 6) {
-                            Image(systemName: "pin.fill").font(.system(size: 9)).foregroundStyle(TerminalTheme.amber).frame(width: 16)
+                            Image(systemName: "pin.fill").font(TerminalTheme.icon(size: 9)).foregroundStyle(TerminalTheme.amber).frame(width: 16)
                             Text("Anchor block").font(TerminalTheme.mono(size: 10, weight: .regular))
                                 .foregroundStyle(TerminalTheme.textPrimary)
                         }

@@ -6,6 +6,7 @@ struct RootView: View {
     @Environment(\.modelContext) private var context
     @StateObject private var vm = MainViewModel()
     @StateObject private var persistence = PersistenceAlerts()
+    @StateObject private var fontScale = FontScaleStore()
     @State private var didSeed = false
     @State private var showStoreRecovery = false
 
@@ -25,9 +26,11 @@ struct RootView: View {
                 }
                 .navigationSplitViewStyle(.balanced)
             }
+            .id(fontScale.scale)
         }
         .environmentObject(vm)
         .environmentObject(persistence)
+        .environmentObject(fontScale)
         .persistenceAlerts(persistence)
         .alert("Local Data Store Unavailable", isPresented: $showStoreRecovery) {
             Button("Open Support Folder") { openApplicationSupport() }

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HeaderBarView: View {
     @EnvironmentObject private var vm: MainViewModel
+    @EnvironmentObject private var fontScale: FontScaleStore
 
     private var dateString: String {
         let f = DateFormatter()
@@ -32,6 +33,8 @@ struct HeaderBarView: View {
                 .truncationMode(.tail)
                 .frame(maxWidth: 360, alignment: .trailing)
 
+            fontScaleControls
+
             Text("STATUS: LIVE")
                 .font(TerminalTheme.mono(size: 11, weight: .semibold))
                 .foregroundStyle(TerminalTheme.green)
@@ -43,5 +46,47 @@ struct HeaderBarView: View {
             Rectangle().frame(height: 1).foregroundStyle(TerminalTheme.border),
             alignment: .bottom
         )
+    }
+
+    private var fontScaleControls: some View {
+        HStack(spacing: 2) {
+            Button {
+                fontScale.decrease()
+            } label: {
+                Text("−")
+                    .font(TerminalTheme.mono(size: 13, weight: .bold))
+                    .frame(width: 22, height: 22)
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(fontScale.canDecrease ? TerminalTheme.cyan : TerminalTheme.textSecondary.opacity(0.4))
+            .disabled(!fontScale.canDecrease)
+            .help("Decrease font size")
+
+            Text(fontScale.percentLabel)
+                .font(TerminalTheme.mono(size: 11, weight: .semibold))
+                .foregroundStyle(TerminalTheme.textSecondary)
+                .frame(minWidth: 36)
+
+            Button {
+                fontScale.increase()
+            } label: {
+                Text("+")
+                    .font(TerminalTheme.mono(size: 13, weight: .bold))
+                    .frame(width: 22, height: 22)
+            }
+            .buttonStyle(.plain)
+            .foregroundStyle(fontScale.canIncrease ? TerminalTheme.cyan : TerminalTheme.textSecondary.opacity(0.4))
+            .disabled(!fontScale.canIncrease)
+            .help("Increase font size")
+        }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+        .overlay(
+            RoundedRectangle(cornerRadius: 4)
+                .stroke(TerminalTheme.border, lineWidth: 1)
+        )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Font size")
+        .accessibilityValue(fontScale.percentLabel)
     }
 }

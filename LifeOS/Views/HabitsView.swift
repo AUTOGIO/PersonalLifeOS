@@ -3,8 +3,10 @@ import SwiftData
 
 struct HabitsView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @Query private var habits: [Habit]
     @State private var showingAdd = false
+    @State private var pendingDelete: Habit? = nil
 
     private let last7: [Date] = (0..<7).reversed().map { Date().adding(days: -$0).startOfDay }
 
@@ -33,9 +35,8 @@ struct HabitsView: View {
                                         .foregroundStyle(TerminalTheme.amber)
                                 }
                                 Spacer()
-                                // last 7 days toggle dots
                                 ForEach(last7, id: \.self) { day in
-                                    Button { h.toggle(on: day); try? context.save() } label: {
+                                    Button { h.toggle(on: day); persistence.save(context) } label: {
                                         VStack(spacing: 2) {
                                             Circle()
                                                 .fill(h.isDone(on: day) ? TerminalTheme.green : TerminalTheme.panelAlt)
@@ -47,7 +48,7 @@ struct HabitsView: View {
                                         }
                                     }.buttonStyle(.plain)
                                 }
-                                Button { context.delete(h); try? context.save() } label: {
+                                Button { pendingDelete = h } label: {
                                     Image(systemName: "trash").foregroundStyle(TerminalTheme.red)
                                 }.buttonStyle(.plain).padding(.leading, 6)
                             }
@@ -68,16 +69,40 @@ struct HabitsView: View {
             }
         }
         .sheet(isPresented: $showingAdd) { HabitEditor() }
+        .confirmationDialog(
+            "Delete habit?",
+            isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if let h = pendingDelete {
+                    context.delete(h)
+                    persistence.save(context)
+                }
+                pendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) { pendingDelete = nil }
+        } message: {
+            Text(pendingDelete.map { "Remove \($0.name) and its completion history." } ?? "")
+        }
     }
 
     private func shortDay(_ d: Date) -> String {
-        let f = DateFormatter(); f.dateFormat = "EEEEE"; return f.string(from: d)
+        let f = DateFormatter()
+        f.calendar = AppCalendar.calendar
+        f.timeZone = AppCalendar.timeZone
+        f.dateFormat = "EEEEE"
+        return f.string(from: d)
     }
 }
 
 struct HabitEditor: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @State private var name = ""
     @State private var detail = ""
     @State private var frequency: HabitFrequency = .daily
@@ -109,7 +134,8 @@ struct HabitEditor: View {
                 Button("Save") {
                     let td = Weekday.allCases.filter { days.contains($0) }.map { $0.rawValue }
                     context.insert(Habit(name: name, detail: detail, frequency: frequency, targetDays: td))
-                    try? context.save(); dismiss()
+                    persistence.save(context)
+                    if persistence.errorMessage == nil { dismiss() }
                 }.buttonStyle(.borderedProminent).disabled(name.isEmpty)
             }
         }

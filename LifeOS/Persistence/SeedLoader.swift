@@ -23,54 +23,90 @@ enum SeedLoader {
         let energy_score: Int?
     }
 
+    /// Decodes tide JSON from data (testable without a bundle).
+    static func decodeTides(from data: Data) throws -> [TideSeed] {
+        try JSONDecoder().decode([TideSeed].self, from: data)
+    }
+
+    /// Decodes daily plan JSON from data (testable without a bundle).
+    static func decodePlans(from data: Data) throws -> [PlanSeed] {
+        try JSONDecoder().decode([PlanSeed].self, from: data)
+    }
+
     @MainActor
-    static func seedIfNeeded(_ context: ModelContext) {
-        seedTides(context)
-        seedDailyPlans(context)
+    @discardableResult
+    static func seedIfNeeded(_ context: ModelContext) -> [String] {
+        var warnings: [String] = []
+        seedTides(context, warnings: &warnings)
+        seedDailyPlans(context, warnings: &warnings)
         seedWeeklySchedule(context)
         seedSampleContent(context)
-        try? context.save()
-    }
-
-    private static func dayFormatter() -> DateFormatter {
-        let f = DateFormatter()
-        f.dateFormat = "yyyy-MM-dd"
-        f.timeZone = TimeZone(identifier: "America/Fortaleza")
-        return f
+        do {
+            try context.save()
+        } catch {
+            #if DEBUG
+            print("Seed save failed: \(error)")
+            #endif
+            warnings.append("Could not save seeded data: \(error.localizedDescription)")
+        }
+        return warnings
     }
 
     @MainActor
-    private static func seedTides(_ context: ModelContext) {
+    private static func seedTides(_ context: ModelContext, warnings: inout [String]) {
         let existing = (try? context.fetchCount(FetchDescriptor<TideEvent>())) ?? 0
         guard existing == 0 else { return }
-        guard let url = Bundle.main.url(forResource: "tides", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let seeds = try? JSONDecoder().decode([TideSeed].self, from: data) else { return }
-        let df = dayFormatter()
-        for s in seeds {
-            guard let day = df.date(from: s.date) else { continue }
-            let t = timeOfDay(s.time, on: day)
-            let ev = TideEvent(portName: s.port_name, date: day, time: t, heightM: s.height_m,
-                               tideType: TideType(rawValue: s.tide_type) ?? .unknown,
-                               source: s.source, timezone: s.timezone)
-            context.insert(ev)
+        guard let url = Bundle.main.url(forResource: "tides", withExtension: "json") else {
+            warnings.append("Missing bundled tides.json — tide calendar will be empty.")
+            return
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            let seeds = try decodeTides(from: data)
+            let df = AppCalendar.dayFormatter
+            for s in seeds {
+                guard let day = df.date(from: s.date) else { continue }
+                let t = timeOfDay(s.time, on: day)
+                let ev = TideEvent(portName: s.port_name, date: day, time: t, heightM: s.height_m,
+                                   tideType: TideType(rawValue: s.tide_type) ?? .unknown,
+                                   source: s.source, timezone: s.timezone)
+                context.insert(ev)
+            }
+            if seeds.isEmpty {
+                warnings.append("tides.json decoded but contained no rows.")
+            }
+        } catch {
+            #if DEBUG
+            print("Tide seed failed: \(error)")
+            #endif
+            warnings.append("Failed to load tides.json: \(error.localizedDescription)")
         }
     }
 
     @MainActor
-    private static func seedDailyPlans(_ context: ModelContext) {
+    private static func seedDailyPlans(_ context: ModelContext, warnings: inout [String]) {
         let existing = (try? context.fetchCount(FetchDescriptor<DailyPlan>())) ?? 0
         guard existing == 0 else { return }
-        guard let url = Bundle.main.url(forResource: "daily_plans", withExtension: "json"),
-              let data = try? Data(contentsOf: url),
-              let seeds = try? JSONDecoder().decode([PlanSeed].self, from: data) else { return }
-        let df = dayFormatter()
-        for s in seeds {
-            guard let day = df.date(from: s.date) else { continue }
-            let p = DailyPlan(date: day, morningIntention: s.morning_intention,
-                              eveningReview: s.evening_review,
-                              moodScore: s.mood_score, energyScore: s.energy_score)
-            context.insert(p)
+        guard let url = Bundle.main.url(forResource: "daily_plans", withExtension: "json") else {
+            warnings.append("Missing bundled daily_plans.json.")
+            return
+        }
+        do {
+            let data = try Data(contentsOf: url)
+            let seeds = try decodePlans(from: data)
+            let df = AppCalendar.dayFormatter
+            for s in seeds {
+                guard let day = df.date(from: s.date) else { continue }
+                let p = DailyPlan(date: day, morningIntention: s.morning_intention,
+                                  eveningReview: s.evening_review,
+                                  moodScore: s.mood_score, energyScore: s.energy_score)
+                context.insert(p)
+            }
+        } catch {
+            #if DEBUG
+            print("Daily plan seed failed: \(error)")
+            #endif
+            warnings.append("Failed to load daily_plans.json: \(error.localizedDescription)")
         }
     }
 

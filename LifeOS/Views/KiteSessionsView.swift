@@ -3,9 +3,10 @@ import SwiftData
 
 struct KiteSessionsView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @Query(sort: \KiteSession.date, order: .reverse) private var sessions: [KiteSession]
-    @Query private var tides: [TideEvent]
     @State private var showingAdd = false
+    @State private var pendingDelete: KiteSession? = nil
 
     private var monthCount: Int { sessions.filter { $0.date >= Date().monthStart }.count }
     private var totalHours: Double {
@@ -57,7 +58,7 @@ struct KiteSessionsView: View {
                             Text("\(s.durationMinutes)m")
                                 .font(TerminalTheme.mono(size: 12, weight: .regular))
                                 .foregroundStyle(TerminalTheme.textSecondary)
-                            Button { context.delete(s); try? context.save() } label: {
+                            Button { pendingDelete = s } label: {
                                 Image(systemName: "trash").foregroundStyle(TerminalTheme.red)
                             }.buttonStyle(.plain)
                         }
@@ -71,12 +72,32 @@ struct KiteSessionsView: View {
             }
         }
         .sheet(isPresented: $showingAdd) { KiteEditor() }
+        .confirmationDialog(
+            "Delete kite session?",
+            isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if let s = pendingDelete {
+                    context.delete(s)
+                    persistence.save(context)
+                }
+                pendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) { pendingDelete = nil }
+        } message: {
+            Text(pendingDelete.map { "Remove session on \($0.date.dayLabel())." } ?? "")
+        }
     }
 }
 
 struct KiteEditor: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @State private var date = Date()
     @State private var location = "Cabedelo, PB"
     @State private var wind = 18.0
@@ -100,7 +121,8 @@ struct KiteEditor: View {
                 Button("Save") {
                     context.insert(KiteSession(date: date, location: location,
                                                windSpeedKnots: wind, durationMinutes: duration, notes: notes))
-                    try? context.save(); dismiss()
+                    persistence.save(context)
+                    if persistence.errorMessage == nil { dismiss() }
                 }.buttonStyle(.borderedProminent)
             }
         }

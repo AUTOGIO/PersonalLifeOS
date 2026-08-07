@@ -1,384 +1,508 @@
 // !$*UTF8*$!
 {
-archiveVersion = 1;
-classes = {
-};
-objectVersion = 56;
-objects = {
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
 
 /* Begin PBXBuildFile section */
-DEAD0000000000000102 /* LifeOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000101 /* LifeOSApp.swift */; };
-DEAD0000000000000104 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000103 /* RootView.swift */; };
-DEAD0000000000000106 /* HeaderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000105 /* HeaderBarView.swift */; };
-DEAD0000000000000108 /* TerminalComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000107 /* TerminalComponents.swift */; };
-DEAD000000000000010A /* TerminalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000109 /* TerminalTheme.swift */; };
-DEAD000000000000010C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010B /* Models.swift */; };
-DEAD000000000000010E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010D /* Extensions.swift */; };
-DEAD0000000000000110 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010F /* AppData.swift */; };
-DEAD0000000000000112 /* SeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000111 /* SeedLoader.swift */; };
-DEAD0000000000000114 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000113 /* MainViewModel.swift */; };
-DEAD0000000000000116 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000115 /* DashboardView.swift */; };
-DEAD0000000000000118 /* ActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000117 /* ActivitiesView.swift */; };
-DEAD000000000000011A /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000119 /* ProjectsView.swift */; };
-DEAD000000000000011C /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011B /* HabitsView.swift */; };
-DEAD000000000000011E /* KiteSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011D /* KiteSessionsView.swift */; };
-DEAD0000000000000120 /* TidesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011F /* TidesView.swift */; };
-DEAD0000000000000122 /* WeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000121 /* WeeklyScheduleView.swift */; };
-DEAD0000000000000124 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000123 /* AnalyticsView.swift */; };
-DEAD0000000000000126 /* tides.json in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000125 /* tides.json */; };
-DEAD0000000000000128 /* daily_plans.json in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000127 /* daily_plans.json */; };
-DEAD000000000000012A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000129 /* Assets.xcassets */; };
+		DEAD0000000000000102 /* LifeOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000101 /* LifeOSApp.swift */; };
+		DEAD0000000000000104 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000103 /* RootView.swift */; };
+		DEAD0000000000000106 /* HeaderBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000105 /* HeaderBarView.swift */; };
+		DEAD0000000000000108 /* TerminalComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000107 /* TerminalComponents.swift */; };
+		DEAD000000000000010A /* TerminalTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000109 /* TerminalTheme.swift */; };
+		DEAD000000000000010C /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010B /* Models.swift */; };
+		DEAD000000000000010E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010D /* Extensions.swift */; };
+		DEAD0000000000000110 /* AppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000010F /* AppData.swift */; };
+		DEAD0000000000000112 /* SeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000111 /* SeedLoader.swift */; };
+		DEAD0000000000000114 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000113 /* MainViewModel.swift */; };
+		DEAD0000000000000116 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000115 /* DashboardView.swift */; };
+		DEAD0000000000000118 /* ActivitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000117 /* ActivitiesView.swift */; };
+		DEAD000000000000011A /* ProjectsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000119 /* ProjectsView.swift */; };
+		DEAD000000000000011C /* HabitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011B /* HabitsView.swift */; };
+		DEAD000000000000011E /* KiteSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011D /* KiteSessionsView.swift */; };
+		DEAD0000000000000120 /* TidesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD000000000000011F /* TidesView.swift */; };
+		DEAD0000000000000122 /* WeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000121 /* WeeklyScheduleView.swift */; };
+		DEAD0000000000000124 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000123 /* AnalyticsView.swift */; };
+		DEAD0000000000000126 /* tides.json in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000125 /* tides.json */; };
+		DEAD0000000000000128 /* daily_plans.json in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000127 /* daily_plans.json */; };
+		DEAD000000000000012A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000129 /* Assets.xcassets */; };
+		DEAD0000000000000142 /* AppCalendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000141 /* AppCalendar.swift */; };
+		DEAD0000000000000144 /* PersistenceAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000143 /* PersistenceAlerts.swift */; };
+		DEAD0000000000000202 /* LifeOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEAD0000000000000201 /* LifeOSTests.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		DEAD0000000000000205 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A10000000000000000000070 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A10000000000000000000040;
+			remoteInfo = LifeOS;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-A1000000000000000000000A /* LifeOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-DEAD0000000000000101 /* LifeOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeOSApp.swift; sourceTree = "<group>"; };
-DEAD0000000000000103 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
-DEAD0000000000000105 /* HeaderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderBarView.swift; sourceTree = "<group>"; };
-DEAD0000000000000107 /* TerminalComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalComponents.swift; sourceTree = "<group>"; };
-DEAD0000000000000109 /* TerminalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalTheme.swift; sourceTree = "<group>"; };
-DEAD000000000000010B /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
-DEAD000000000000010D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-DEAD000000000000010F /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
-DEAD0000000000000111 /* SeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedLoader.swift; sourceTree = "<group>"; };
-DEAD0000000000000113 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
-DEAD0000000000000115 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
-DEAD0000000000000117 /* ActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesView.swift; sourceTree = "<group>"; };
-DEAD0000000000000119 /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
-DEAD000000000000011B /* HabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
-DEAD000000000000011D /* KiteSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiteSessionsView.swift; sourceTree = "<group>"; };
-DEAD000000000000011F /* TidesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidesView.swift; sourceTree = "<group>"; };
-DEAD0000000000000121 /* WeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleView.swift; sourceTree = "<group>"; };
-DEAD0000000000000123 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
-DEAD0000000000000125 /* tides.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tides.json; sourceTree = "<group>"; };
-DEAD0000000000000127 /* daily_plans.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_plans.json; sourceTree = "<group>"; };
-DEAD0000000000000129 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A1000000000000000000000A /* LifeOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LifeOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEAD0000000000000101 /* LifeOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeOSApp.swift; sourceTree = "<group>"; };
+		DEAD0000000000000103 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		DEAD0000000000000105 /* HeaderBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderBarView.swift; sourceTree = "<group>"; };
+		DEAD0000000000000107 /* TerminalComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalComponents.swift; sourceTree = "<group>"; };
+		DEAD0000000000000109 /* TerminalTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalTheme.swift; sourceTree = "<group>"; };
+		DEAD000000000000010B /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		DEAD000000000000010D /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		DEAD000000000000010F /* AppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppData.swift; sourceTree = "<group>"; };
+		DEAD0000000000000111 /* SeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedLoader.swift; sourceTree = "<group>"; };
+		DEAD0000000000000113 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		DEAD0000000000000115 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		DEAD0000000000000117 /* ActivitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivitiesView.swift; sourceTree = "<group>"; };
+		DEAD0000000000000119 /* ProjectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsView.swift; sourceTree = "<group>"; };
+		DEAD000000000000011B /* HabitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsView.swift; sourceTree = "<group>"; };
+		DEAD000000000000011D /* KiteSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KiteSessionsView.swift; sourceTree = "<group>"; };
+		DEAD000000000000011F /* TidesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TidesView.swift; sourceTree = "<group>"; };
+		DEAD0000000000000121 /* WeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleView.swift; sourceTree = "<group>"; };
+		DEAD0000000000000123 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
+		DEAD0000000000000125 /* tides.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tides.json; sourceTree = "<group>"; };
+		DEAD0000000000000127 /* daily_plans.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_plans.json; sourceTree = "<group>"; };
+		DEAD0000000000000129 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DEAD0000000000000141 /* AppCalendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCalendar.swift; sourceTree = "<group>"; };
+		DEAD0000000000000143 /* PersistenceAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceAlerts.swift; sourceTree = "<group>"; };
+		DEAD0000000000000200 /* LifeOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LifeOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEAD0000000000000201 /* LifeOSTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeOSTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-A10000000000000000000020 /* Frameworks */ = {
-isa = PBXFrameworksBuildPhase;
-buildActionMask = 2147483647;
-files = (
-);
-runOnlyForDeploymentPostprocessing = 0;
-};
+		A10000000000000000000020 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEAD0000000000000203 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-A10000000000000000000030 = {
-isa = PBXGroup;
-children = (
-A10000000000000000000031 /* LifeOS */,
-A10000000000000000000032 /* Products */,
-);
-sourceTree = "<group>";
-};
-A10000000000000000000031 /* LifeOS */ = {
-isa = PBXGroup;
-children = (
-DEAD000000000000012B /* App */,
-DEAD000000000000012C /* UI */,
-DEAD000000000000012D /* Models */,
-DEAD000000000000012E /* Persistence */,
-DEAD000000000000012F /* ViewModels */,
-DEAD0000000000000130 /* Views */,
-DEAD0000000000000131 /* Resources */,
-DEAD0000000000000129 /* Assets.xcassets */,
-);
-path = LifeOS;
-sourceTree = "<group>";
-};
-A10000000000000000000032 /* Products */ = {
-isa = PBXGroup;
-children = (
-A1000000000000000000000A /* LifeOS.app */,
-);
-name = Products;
-sourceTree = "<group>";
-};
-DEAD000000000000012B /* App */ = {
-isa = PBXGroup;
-children = (
-DEAD0000000000000101 /* LifeOSApp.swift */,
-DEAD0000000000000103 /* RootView.swift */,
-);
-path = App;
-sourceTree = "<group>";
-};
-DEAD000000000000012C /* UI */ = {
-isa = PBXGroup;
-children = (
-DEAD0000000000000105 /* HeaderBarView.swift */,
-DEAD0000000000000107 /* TerminalComponents.swift */,
-DEAD0000000000000109 /* TerminalTheme.swift */,
-);
-path = UI;
-sourceTree = "<group>";
-};
-DEAD000000000000012D /* Models */ = {
-isa = PBXGroup;
-children = (
-DEAD000000000000010B /* Models.swift */,
-DEAD000000000000010D /* Extensions.swift */,
-DEAD000000000000010F /* AppData.swift */,
-);
-path = Models;
-sourceTree = "<group>";
-};
-DEAD000000000000012E /* Persistence */ = {
-isa = PBXGroup;
-children = (
-DEAD0000000000000111 /* SeedLoader.swift */,
-);
-path = Persistence;
-sourceTree = "<group>";
-};
-DEAD000000000000012F /* ViewModels */ = {
-isa = PBXGroup;
-children = (
-DEAD0000000000000113 /* MainViewModel.swift */,
-);
-path = ViewModels;
-sourceTree = "<group>";
-};
-DEAD0000000000000130 /* Views */ = {
-isa = PBXGroup;
-children = (
-DEAD0000000000000115 /* DashboardView.swift */,
-DEAD0000000000000117 /* ActivitiesView.swift */,
-DEAD0000000000000119 /* ProjectsView.swift */,
-DEAD000000000000011B /* HabitsView.swift */,
-DEAD000000000000011D /* KiteSessionsView.swift */,
-DEAD000000000000011F /* TidesView.swift */,
-DEAD0000000000000121 /* WeeklyScheduleView.swift */,
-DEAD0000000000000123 /* AnalyticsView.swift */,
-);
-path = Views;
-sourceTree = "<group>";
-};
-DEAD0000000000000131 /* Resources */ = {
-isa = PBXGroup;
-children = (
-DEAD0000000000000125 /* tides.json */,
-DEAD0000000000000127 /* daily_plans.json */,
-);
-path = Resources;
-sourceTree = "<group>";
-};
+		A10000000000000000000030 = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000031 /* LifeOS */,
+				DEAD0000000000000204 /* LifeOSTests */,
+				A10000000000000000000032 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000031 /* LifeOS */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD000000000000012B /* App */,
+				DEAD000000000000012C /* UI */,
+				DEAD000000000000012D /* Models */,
+				DEAD000000000000012E /* Persistence */,
+				DEAD000000000000012F /* ViewModels */,
+				DEAD0000000000000130 /* Views */,
+				DEAD0000000000000131 /* Resources */,
+				DEAD0000000000000129 /* Assets.xcassets */,
+			);
+			path = LifeOS;
+			sourceTree = "<group>";
+		};
+		A10000000000000000000032 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000A /* LifeOS.app */,
+				DEAD0000000000000200 /* LifeOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DEAD000000000000012B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD0000000000000101 /* LifeOSApp.swift */,
+				DEAD0000000000000103 /* RootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DEAD000000000000012C /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD0000000000000105 /* HeaderBarView.swift */,
+				DEAD0000000000000107 /* TerminalComponents.swift */,
+				DEAD0000000000000109 /* TerminalTheme.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		DEAD000000000000012D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD000000000000010B /* Models.swift */,
+				DEAD000000000000010D /* Extensions.swift */,
+				DEAD0000000000000141 /* AppCalendar.swift */,
+				DEAD000000000000010F /* AppData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DEAD000000000000012E /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD0000000000000111 /* SeedLoader.swift */,
+				DEAD0000000000000143 /* PersistenceAlerts.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		DEAD000000000000012F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD0000000000000113 /* MainViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DEAD0000000000000130 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD0000000000000115 /* DashboardView.swift */,
+				DEAD0000000000000117 /* ActivitiesView.swift */,
+				DEAD0000000000000119 /* ProjectsView.swift */,
+				DEAD000000000000011B /* HabitsView.swift */,
+				DEAD000000000000011D /* KiteSessionsView.swift */,
+				DEAD000000000000011F /* TidesView.swift */,
+				DEAD0000000000000121 /* WeeklyScheduleView.swift */,
+				DEAD0000000000000123 /* AnalyticsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DEAD0000000000000131 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD0000000000000125 /* tides.json */,
+				DEAD0000000000000127 /* daily_plans.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DEAD0000000000000204 /* LifeOSTests */ = {
+			isa = PBXGroup;
+			children = (
+				DEAD0000000000000201 /* LifeOSTests.swift */,
+			);
+			name = LifeOSTests;
+			path = tests/LifeOSTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-A10000000000000000000040 /* LifeOS */ = {
-isa = PBXNativeTarget;
-buildConfigurationList = A10000000000000000000050 /* Build configuration list for PBXNativeTarget "LifeOS" */;
-buildPhases = (
-A10000000000000000000060 /* Sources */,
-A10000000000000000000020 /* Frameworks */,
-A10000000000000000000061 /* Resources */,
-);
-buildRules = (
-);
-dependencies = (
-);
-name = LifeOS;
-productName = LifeOS;
-productReference = A1000000000000000000000A /* LifeOS.app */;
-productType = "com.apple.product-type.application";
-};
+		A10000000000000000000040 /* LifeOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A10000000000000000000050 /* Build configuration list for PBXNativeTarget "LifeOS" */;
+			buildPhases = (
+				A10000000000000000000060 /* Sources */,
+				A10000000000000000000020 /* Frameworks */,
+				A10000000000000000000061 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LifeOS;
+			productName = LifeOS;
+			productReference = A1000000000000000000000A /* LifeOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DEAD0000000000000206 /* LifeOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEAD0000000000000207 /* Build configuration list for PBXNativeTarget "LifeOSTests" */;
+			buildPhases = (
+				DEAD0000000000000208 /* Sources */,
+				DEAD0000000000000203 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DEAD0000000000000209 /* PBXTargetDependency */,
+			);
+			name = LifeOSTests;
+			productName = LifeOSTests;
+			productReference = DEAD0000000000000200 /* LifeOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-A10000000000000000000070 /* Project object */ = {
-isa = PBXProject;
-attributes = {
-BuildIndependentTargetsInParallel = 1;
-LastSwiftUpdateCheck = 1600;
-LastUpgradeCheck = 1600;
-TargetAttributes = {
-A10000000000000000000040 = {
-CreatedOnToolsVersion = 16.0;
-};
-};
-};
-buildConfigurationList = A10000000000000000000071 /* Build configuration list for PBXProject "LifeOS" */;
-compatibilityVersion = "Xcode 14.0";
-developmentRegion = en;
-hasScannedForEncodings = 0;
-knownRegions = (
-en,
-Base,
-);
-mainGroup = A10000000000000000000030;
-productRefGroup = A10000000000000000000032 /* Products */;
-projectDirPath = "";
-projectRoot = "";
-targets = (
-A10000000000000000000040 /* LifeOS */,
-);
-};
+		A10000000000000000000070 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					A10000000000000000000040 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					DEAD0000000000000206 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = A10000000000000000000040;
+					};
+				};
+			};
+			buildConfigurationList = A10000000000000000000071 /* Build configuration list for PBXProject "LifeOS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A10000000000000000000030;
+			productRefGroup = A10000000000000000000032 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A10000000000000000000040 /* LifeOS */,
+				DEAD0000000000000206 /* LifeOSTests */,
+			);
+		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-A10000000000000000000061 /* Resources */ = {
-isa = PBXResourcesBuildPhase;
-buildActionMask = 2147483647;
-files = (
-DEAD0000000000000126 /* tides.json in Resources */,
-DEAD0000000000000128 /* daily_plans.json in Resources */,
-DEAD000000000000012A /* Assets.xcassets in Resources */,
-);
-runOnlyForDeploymentPostprocessing = 0;
-};
+		A10000000000000000000061 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEAD0000000000000126 /* tides.json in Resources */,
+				DEAD0000000000000128 /* daily_plans.json in Resources */,
+				DEAD000000000000012A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-A10000000000000000000060 /* Sources */ = {
-isa = PBXSourcesBuildPhase;
-buildActionMask = 2147483647;
-files = (
-DEAD0000000000000102 /* LifeOSApp.swift in Sources */,
-DEAD0000000000000104 /* RootView.swift in Sources */,
-DEAD0000000000000106 /* HeaderBarView.swift in Sources */,
-DEAD0000000000000108 /* TerminalComponents.swift in Sources */,
-DEAD000000000000010A /* TerminalTheme.swift in Sources */,
-DEAD000000000000010C /* Models.swift in Sources */,
-DEAD000000000000010E /* Extensions.swift in Sources */,
-DEAD0000000000000110 /* AppData.swift in Sources */,
-DEAD0000000000000112 /* SeedLoader.swift in Sources */,
-DEAD0000000000000114 /* MainViewModel.swift in Sources */,
-DEAD0000000000000116 /* DashboardView.swift in Sources */,
-DEAD0000000000000118 /* ActivitiesView.swift in Sources */,
-DEAD000000000000011A /* ProjectsView.swift in Sources */,
-DEAD000000000000011C /* HabitsView.swift in Sources */,
-DEAD000000000000011E /* KiteSessionsView.swift in Sources */,
-DEAD0000000000000120 /* TidesView.swift in Sources */,
-DEAD0000000000000122 /* WeeklyScheduleView.swift in Sources */,
-DEAD0000000000000124 /* AnalyticsView.swift in Sources */,
-);
-runOnlyForDeploymentPostprocessing = 0;
-};
+		A10000000000000000000060 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEAD0000000000000102 /* LifeOSApp.swift in Sources */,
+				DEAD0000000000000104 /* RootView.swift in Sources */,
+				DEAD0000000000000106 /* HeaderBarView.swift in Sources */,
+				DEAD0000000000000108 /* TerminalComponents.swift in Sources */,
+				DEAD000000000000010A /* TerminalTheme.swift in Sources */,
+				DEAD000000000000010C /* Models.swift in Sources */,
+				DEAD000000000000010E /* Extensions.swift in Sources */,
+				DEAD0000000000000142 /* AppCalendar.swift in Sources */,
+				DEAD0000000000000110 /* AppData.swift in Sources */,
+				DEAD0000000000000112 /* SeedLoader.swift in Sources */,
+				DEAD0000000000000144 /* PersistenceAlerts.swift in Sources */,
+				DEAD0000000000000114 /* MainViewModel.swift in Sources */,
+				DEAD0000000000000116 /* DashboardView.swift in Sources */,
+				DEAD0000000000000118 /* ActivitiesView.swift in Sources */,
+				DEAD000000000000011A /* ProjectsView.swift in Sources */,
+				DEAD000000000000011C /* HabitsView.swift in Sources */,
+				DEAD000000000000011E /* KiteSessionsView.swift in Sources */,
+				DEAD0000000000000120 /* TidesView.swift in Sources */,
+				DEAD0000000000000122 /* WeeklyScheduleView.swift in Sources */,
+				DEAD0000000000000124 /* AnalyticsView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEAD0000000000000208 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEAD0000000000000202 /* LifeOSTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		DEAD0000000000000209 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A10000000000000000000040 /* LifeOS */;
+			targetProxy = DEAD0000000000000205 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
-A10000000000000000000080 /* Debug */ = {
-isa = XCBuildConfiguration;
-buildSettings = {
-ALWAYS_SEARCH_USER_PATHS = NO;
-CLANG_ENABLE_MODULES = YES;
-CLANG_ENABLE_OBJC_ARC = YES;
-COPY_PHASE_STRIP = NO;
-DEBUG_INFORMATION_FORMAT = dwarf;
-GCC_OPTIMIZATION_LEVEL = 0;
-GCC_PREPROCESSOR_DEFINITIONS = (
-"DEBUG=1",
-"$(inherited)",
-);
-MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-ONLY_ACTIVE_ARCH = YES;
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-ENABLE_STRICT_OBJC_MSGSEND = YES;
-GCC_C_LANGUAGE_STANDARD = gnu17;
-GCC_NO_COMMON_BLOCKS = YES;
-MACOSX_DEPLOYMENT_TARGET = 14.0;
-SDKROOT = macosx;
-};
-name = Debug;
-};
-A10000000000000000000081 /* Release */ = {
-isa = XCBuildConfiguration;
-buildSettings = {
-ALWAYS_SEARCH_USER_PATHS = NO;
-CLANG_ENABLE_MODULES = YES;
-CLANG_ENABLE_OBJC_ARC = YES;
-COPY_PHASE_STRIP = NO;
-DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-ENABLE_NS_ASSERTIONS = NO;
-MTL_ENABLE_DEBUG_INFO = NO;
-SWIFT_OPTIMIZATION_LEVEL = "-O";
-ENABLE_STRICT_OBJC_MSGSEND = YES;
-GCC_C_LANGUAGE_STANDARD = gnu17;
-GCC_NO_COMMON_BLOCKS = YES;
-MACOSX_DEPLOYMENT_TARGET = 14.0;
-SDKROOT = macosx;
-};
-name = Release;
-};
-A10000000000000000000082 /* Debug */ = {
-isa = XCBuildConfiguration;
-buildSettings = {
-ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-CODE_SIGN_STYLE = Automatic;
-CURRENT_PROJECT_VERSION = 1;
-ENABLE_HARDENED_RUNTIME = YES;
-GENERATE_INFOPLIST_FILE = YES;
-INFOPLIST_KEY_CFBundleDisplayName = LifeOS;
-INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AUTOGIO";
-LD_RUNPATH_SEARCH_PATHS = (
-"$(inherited)",
-"@executable_path/../Frameworks",
-);
-MACOSX_DEPLOYMENT_TARGET = 14.0;
-MARKETING_VERSION = 1.0.0;
-PRODUCT_BUNDLE_IDENTIFIER = com.autogio.lifeos;
-PRODUCT_NAME = "$(TARGET_NAME)";
-SDKROOT = macosx;
-SUPPORTED_PLATFORMS = macosx;
-SWIFT_EMIT_LOC_STRINGS = YES;
-SWIFT_VERSION = 5.0;
-};
-name = Debug;
-};
-A10000000000000000000083 /* Release */ = {
-isa = XCBuildConfiguration;
-buildSettings = {
-ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-CODE_SIGN_STYLE = Automatic;
-CURRENT_PROJECT_VERSION = 1;
-ENABLE_HARDENED_RUNTIME = YES;
-GENERATE_INFOPLIST_FILE = YES;
-INFOPLIST_KEY_CFBundleDisplayName = LifeOS;
-INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AUTOGIO";
-LD_RUNPATH_SEARCH_PATHS = (
-"$(inherited)",
-"@executable_path/../Frameworks",
-);
-MACOSX_DEPLOYMENT_TARGET = 14.0;
-MARKETING_VERSION = 1.0.0;
-PRODUCT_BUNDLE_IDENTIFIER = com.autogio.lifeos;
-PRODUCT_NAME = "$(TARGET_NAME)";
-SDKROOT = macosx;
-SUPPORTED_PLATFORMS = macosx;
-SWIFT_EMIT_LOC_STRINGS = YES;
-SWIFT_VERSION = 5.0;
-};
-name = Release;
-};
+		A10000000000000000000080 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		A10000000000000000000081 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		A10000000000000000000082 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_TESTABILITY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LifeOS;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AUTOGIO";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autogio.lifeos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		A10000000000000000000083 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_TESTABILITY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = LifeOS;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 AUTOGIO";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autogio.lifeos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		DEAD000000000000020A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autogio.lifeos.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LifeOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LifeOS";
+			};
+			name = Debug;
+		};
+		DEAD000000000000020B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.autogio.lifeos.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LifeOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LifeOS";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-A10000000000000000000050 /* Build configuration list for PBXNativeTarget "LifeOS" */ = {
-isa = XCConfigurationList;
-buildConfigurations = (
-A10000000000000000000082 /* Debug */,
-A10000000000000000000083 /* Release */,
-);
-defaultConfigurationIsVisible = 0;
-defaultConfigurationName = Release;
-};
-A10000000000000000000071 /* Build configuration list for PBXProject "LifeOS" */ = {
-isa = XCConfigurationList;
-buildConfigurations = (
-A10000000000000000000080 /* Debug */,
-A10000000000000000000081 /* Release */,
-);
-defaultConfigurationIsVisible = 0;
-defaultConfigurationName = Release;
-};
+		A10000000000000000000050 /* Build configuration list for PBXNativeTarget "LifeOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000082 /* Debug */,
+				A10000000000000000000083 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A10000000000000000000071 /* Build configuration list for PBXProject "LifeOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A10000000000000000000080 /* Debug */,
+				A10000000000000000000081 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEAD0000000000000207 /* Build configuration list for PBXNativeTarget "LifeOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEAD000000000000020A /* Debug */,
+				DEAD000000000000020B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
-};
-rootObject = A10000000000000000000070 /* Project object */;
+	};
+	rootObject = A10000000000000000000070 /* Project object */;
 }

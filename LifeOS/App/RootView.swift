@@ -1,10 +1,16 @@
 import SwiftUI
 import SwiftData
+import AppKit
 
 struct RootView: View {
     @Environment(\.modelContext) private var context
     @StateObject private var vm = MainViewModel()
+    @StateObject private var persistence = PersistenceAlerts()
+    @StateObject private var fontScale = FontScaleStore()
     @State private var didSeed = false
+    @State private var showStoreRecovery = false
+
+    let storeRecoveryMode: Bool
 
     var body: some View {
         ZStack {
@@ -20,14 +26,34 @@ struct RootView: View {
                 }
                 .navigationSplitViewStyle(.balanced)
             }
+            .id(fontScale.scale)
         }
         .environmentObject(vm)
+        .environmentObject(persistence)
+        .environmentObject(fontScale)
+        .persistenceAlerts(persistence)
+        .alert("Local Data Store Unavailable", isPresented: $showStoreRecovery) {
+            Button("Open Support Folder") { openApplicationSupport() }
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("The on-disk store could not be opened. LifeOS is using temporary in-memory data that will be lost when you quit.\n\nTo reset: quit the app, delete default.store* in ~/Library/Application Support/, then relaunch.")
+        }
         .task {
+            if storeRecoveryMode {
+                showStoreRecovery = true
+            }
             if !didSeed {
                 didSeed = true
-                SeedLoader.seedIfNeeded(context)
+                let warnings = SeedLoader.seedIfNeeded(context)
+                persistence.presentSeedWarnings(warnings)
             }
         }
+    }
+
+    private func openApplicationSupport() {
+        let url = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent("Library/Application Support")
+        NSWorkspace.shared.open(url)
     }
 
     @ViewBuilder

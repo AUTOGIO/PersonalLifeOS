@@ -66,7 +66,7 @@ struct TidesView: View {
                                         ForEach(ts) { t in
                                             HStack(spacing: 6) {
                                                 Image(systemName: t.tideType.symbol)
-                                                    .font(.system(size: 9)).foregroundStyle(t.tideType.color)
+                                                    .font(TerminalTheme.icon(size: 9)).foregroundStyle(t.tideType.color)
                                                 Text("\(t.timeString)  \(String(format: "%.2fm", t.heightM))")
                                                     .font(TerminalTheme.mono(size: 10, weight: .regular))
                                                     .foregroundStyle(TerminalTheme.textPrimary)

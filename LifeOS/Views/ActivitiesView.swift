@@ -1,15 +1,18 @@
 import SwiftUI
 import SwiftData
+import AppKit
 import UniformTypeIdentifiers
 
 struct ActivitiesView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @Query(sort: \Activity.scheduledDate, order: .reverse) private var activities: [Activity]
 
     @State private var filterCategory: ActivityCategory? = nil
     @State private var filterStatus: ActivityStatus? = nil
     @State private var editing: Activity? = nil
     @State private var showingAdd = false
+    @State private var pendingDelete: Activity? = nil
 
     private var filtered: [Activity] {
         activities.filter { a in
@@ -63,12 +66,12 @@ struct ActivitiesView: View {
                             }
                             Menu {
                                 ForEach(ActivityStatus.allCases) { s in
-                                    Button(s.label) { a.status = s; try? context.save() }
+                                    Button(s.label) { a.status = s; persistence.save(context) }
                                 }
                             } label: { TagPill(text: a.status.label, color: a.status.color) }
                                 .menuStyle(.borderlessButton).fixedSize()
                             Button { editing = a } label: { Image(systemName: "pencil") }.buttonStyle(.plain)
-                            Button { context.delete(a); try? context.save() } label: {
+                            Button { pendingDelete = a } label: {
                                 Image(systemName: "trash").foregroundStyle(TerminalTheme.red)
                             }.buttonStyle(.plain)
                         }
@@ -83,6 +86,25 @@ struct ActivitiesView: View {
         }
         .sheet(isPresented: $showingAdd) { ActivityEditor(activity: nil) }
         .sheet(item: $editing) { a in ActivityEditor(activity: a) }
+        .confirmationDialog(
+            "Delete activity?",
+            isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if let a = pendingDelete {
+                    context.delete(a)
+                    persistence.save(context)
+                }
+                pendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) { pendingDelete = nil }
+        } message: {
+            Text(pendingDelete.map { "Remove \($0.name) permanently." } ?? "")
+        }
     }
 
     private func timeRange(_ a: Activity) -> String {
@@ -91,19 +113,31 @@ struct ActivitiesView: View {
     }
 
     private func exportCSV() {
-        var rows = ["name,category,date,start,end,duration_min,status,notes"]
-        let df = DateFormatter(); df.dateFormat = "yyyy-MM-dd"
+        var rows = [CSV.row(["name", "category", "date", "start", "end", "duration_min", "status", "notes"])]
+        let df = AppCalendar.dayFormatter
         for a in filtered {
             let start = a.startTime?.timeLabel() ?? ""
             let end = a.endTime?.timeLabel() ?? ""
-            let notes = a.notes.replacingOccurrences(of: ",", with: ";").replacingOccurrences(of: "\n", with: " ")
-            rows.append("\(a.name),\(a.category.label),\(df.string(from: a.scheduledDate)),\(start),\(end),\(a.durationMinutes ?? 0),\(a.status.label),\(notes)")
+            rows.append(CSV.row([
+                a.name,
+                a.category.label,
+                df.string(from: a.scheduledDate),
+                start,
+                end,
+                "\(a.durationMinutes ?? 0)",
+                a.status.label,
+                a.notes,
+            ]))
         }
         let panel = NSSavePanel()
         panel.nameFieldStringValue = "activities.csv"
         panel.allowedContentTypes = [.commaSeparatedText]
         if panel.runModal() == .OK, let url = panel.url {
-            try? rows.joined(separator: "\n").write(to: url, atomically: true, encoding: .utf8)
+            do {
+                try rows.joined(separator: "\n").write(to: url, atomically: true, encoding: .utf8)
+            } catch {
+                persistence.errorMessage = "Could not write CSV: \(error.localizedDescription)"
+            }
         }
     }
 }
@@ -111,6 +145,7 @@ struct ActivitiesView: View {
 struct ActivityEditor: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var persistence: PersistenceAlerts
     let activity: Activity?
 
     @State private var name = ""
@@ -167,7 +202,7 @@ struct ActivityEditor: View {
                              startTime: start, endTime: end, status: status, notes: notes)
             context.insert(a)
         }
-        try? context.save()
-        dismiss()
+        persistence.save(context)
+        if persistence.errorMessage == nil { dismiss() }
     }
 }

@@ -48,3 +48,6 @@ tmp/
 .coverage
 htmlcov/
 .mypy_cache/
+
+# Local editor workspace stub
+PersonalLifeOS.code-workspace

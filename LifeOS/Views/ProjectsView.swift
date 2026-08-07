@@ -3,9 +3,11 @@ import SwiftData
 
 struct ProjectsView: View {
     @Environment(\.modelContext) private var context
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @Query private var projects: [AIProject]
     @Query private var sessions: [ProjectSession]
     @State private var showingAdd = false
+    @State private var pendingDelete: AIProject? = nil
 
     private var sortedProjects: [AIProject] {
         projects.sorted { ($0.priority.sortRank, $0.name) < ($1.priority.sortRank, $1.name) }
@@ -54,7 +56,7 @@ struct ProjectsView: View {
                                         .buttonStyle(.borderedProminent).controlSize(.small)
                                         .disabled(activeSession != nil)
                                 }
-                                Button { context.delete(p); try? context.save() } label: {
+                                Button { pendingDelete = p } label: {
                                     Image(systemName: "trash").foregroundStyle(TerminalTheme.red)
                                 }.buttonStyle(.plain)
                             }
@@ -84,13 +86,41 @@ struct ProjectsView: View {
             }
         }
         .sheet(isPresented: $showingAdd) { ProjectEditor() }
+        .confirmationDialog(
+            "Delete project?",
+            isPresented: Binding(
+                get: { pendingDelete != nil },
+                set: { if !$0 { pendingDelete = nil } }
+            ),
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) {
+                if let p = pendingDelete {
+                    context.delete(p)
+                    persistence.save(context)
+                }
+                pendingDelete = nil
+            }
+            Button("Cancel", role: .cancel) { pendingDelete = nil }
+        } message: {
+            if let p = pendingDelete {
+                let n = p.sessions.count
+                if n == 0 {
+                    Text("Remove \(p.name) permanently.")
+                } else {
+                    let label = n == 1 ? "session" : "sessions"
+                    Text("Remove \(p.name) and its \(n) \(label) permanently.")
+                }
+            }
+        }
     }
 
     private func start(_ p: AIProject) {
         let s = ProjectSession(project: p, startTime: Date())
-        context.insert(s); try? context.save()
+        context.insert(s)
+        persistence.save(context)
     }
-    private func stop(_ s: ProjectSession) { s.stop(); try? context.save() }
+    private func stop(_ s: ProjectSession) { s.stop(); persistence.save(context) }
 
     private func priorityColor(_ p: ProjectPriority) -> Color {
         switch p { case .high: return TerminalTheme.red; case .medium: return TerminalTheme.amber; case .low: return TerminalTheme.textSecondary }
@@ -103,6 +133,7 @@ struct ProjectsView: View {
 struct ProjectEditor: View {
     @Environment(\.modelContext) private var context
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var persistence: PersistenceAlerts
     @State private var name = ""
     @State private var category: ProjectCategory = .coreOS
     @State private var priority: ProjectPriority = .medium
@@ -126,7 +157,8 @@ struct ProjectEditor: View {
                 Button("Save") {
                     context.insert(AIProject(name: name, category: category, priority: priority,
                                              status: status, githubRepo: repo.isEmpty ? nil : repo))
-                    try? context.save(); dismiss()
+                    persistence.save(context)
+                    if persistence.errorMessage == nil { dismiss() }
                 }.buttonStyle(.borderedProminent).disabled(name.isEmpty)
             }
         }

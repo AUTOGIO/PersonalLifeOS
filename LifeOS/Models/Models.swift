@@ -2,7 +2,7 @@ import Foundation
 import SwiftData
 import SwiftUI
 
-// MARK: - Enums (mirror Django choices)
+// MARK: - Enums
 
 enum ActivityCategory: String, Codable, CaseIterable, Identifiable {
     case muayThai = "MUAY_THAI"
@@ -126,8 +126,8 @@ enum Weekday: String, Codable, CaseIterable, Identifiable {
     var order: Int { Self.allCases.firstIndex(of: self).map { $0 + 1 } ?? 0 }
 
     static func from(date: Date) -> Weekday {
-        // Calendar weekday: 1=Sun..7=Sat
-        let wd = Calendar.current.component(.weekday, from: date)
+        // Calendar weekday: 1=Sun..7=Sat (AppCalendar / Fortaleza)
+        let wd = AppCalendar.calendar.component(.weekday, from: date)
         switch wd {
         case 1: return .sun
         case 2: return .mon
@@ -344,7 +344,7 @@ final class Habit {
         let set = Set(completedDates)
         while set.contains(day.isoDay) {
             streak += 1
-            day = Calendar.current.date(byAdding: .day, value: -1, to: day)!
+            day = day.adding(days: -1)
         }
         streakCount = streak
     }
@@ -427,6 +427,10 @@ final class TideEvent {
     }
     var tideType: TideType { get { TideType(rawValue: tideTypeRaw) ?? .unknown } set { tideTypeRaw = newValue.rawValue } }
     var timeString: String {
-        let f = DateFormatter(); f.dateFormat = "HH:mm"; return f.string(from: time)
+        let f = DateFormatter()
+        f.calendar = AppCalendar.calendar
+        f.timeZone = AppCalendar.timeZone
+        f.dateFormat = "HH:mm"
+        return f.string(from: time)
     }
 }
